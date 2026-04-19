@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>FindIt — Campus Lost &amp; Found</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232ec37c'/><circle cx='27' cy='27' r='13' fill='none' stroke='white' stroke-width='5'/><line x1='36' y1='36' x2='50' y2='50' stroke='white' stroke-width='5' stroke-linecap='round'/></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+ 
+</head>
+<body>
+
+<!-- ════ DARK MODE TOGGLE INPUT ════ -->
+<!-- <input type="checkbox" id="dark-toggle" aria-label="Toggle dark mode"/> -->
+
+<!-- ════ NAV ════ -->
+<input type="checkbox" id="nav-toggle" aria-label="Toggle navigation"/>
+<nav aria-label="Main navigation">
+  <a href="#page-home" class="nav-logo">
+    <div class="logo-box">🔍</div>
+    Find<span class="logo-dot">It</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#page-how">How It Works</a></li>
+    <li><a href="#page-browse">Browse Items</a></li>
+    <li><a href="#page-about">About</a></li>
+    <li><a href="#page-contact">Contact</a></li>
+    <li><a href="#page-report" class="nav-cta">📷 Report Found</a></li>
+    </ul>
+</nav>
+
+<div class="page" id="page-home">
+<section id="home" aria-label="Home">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="pulse-dot"></div> Campus Lost &amp; Found Portal</div>
+      <h1>Lost something?<br><em>Find It</em> here. 🎒</h1>
+      <p>FindIt connects finders and owners across the campus community. Snap a photo, pin the pickup location, and reunite students with their belongings — fast and simple.</p>
+      <div class="hero-btns">
+        <a href="#page-browse" class="btn btn-green">🔍 Browse Items</a>
+        <a href="#page-report" class="btn btn-outline">📷 Report Found Item</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">124<b>+</b></div><div class="hstat-lbl">Items Returned</div></div>
+        <div class="hstat"><div class="hstat-num">38</div><div class="hstat-lbl">Active Listings</div></div>
+        <div class="hstat"><div class="hstat-num">96<b>%</b></div><div class="hstat-lbl">Match Rate</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-img">🎧</div>
+        <div class="hc-badge">✅ Found Today</div>
+        <h3>Sony WH-1000XM5 Headphones</h3>
+        <p>Black, found near the library entrance. In good condition.</p>
+        <div class="hc-loc">📍 Library — Main Entrance</div>
+      </div>
+      <div class="float-chip fc1">🔑 Keys Found!</div>
+      <div class="float-chip fc2">📍 3 new items today</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page" id="page-how">
+<!-- ════ HOW IT WORKS ════ -->
+<section id="how">
+  <div class="how-center">
+    <span class="tag">The Process</span>
+    <h2 class="sec-title">How FindIt Works</h2>
+    <p class="sec-sub">A simple four-step process to reunite campus community members with their lost belongings.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step"><div class="step-ghost">1</div><div class="step-ico ico-g">📷</div><h3>Snap a Photo</h3><p>Found something? Take a clear photo of the item right where you spotted it on campus to document it.</p></div>
+    <div class="step"><div class="step-ghost">2</div><div class="step-ico ico-y">📝</div><h3>Fill the Details</h3><p>Describe the item, choose its category, and add any details that would help the owner identify it's theirs.</p></div>
+    <div class="step"><div class="step-ghost">3</div><div class="step-ico ico-b">📍</div><h3>Pin the Location</h3><p>Mark the exact spot on the campus map where the item can be collected, so the owner knows where to go.</p></div>
+    <div class="step"><div class="step-ghost">4</div><div class="step-ico ico-o">🤝</div><h3>Get Reunited</h3><p>The owner sees the listing, verifies ownership, and collects their item at the pinned location.</p></div>
+  </div>
+</section>
+</div>
+
+
+<div class="page" id="page-browse">
+<!-- ════ BROWSE ════ -->
+<section id="browse">
+  <span class="tag">Found Items</span>
+  <h2 class="sec-title">Browse Found Items</h2>
+  <p class="sec-sub">Click any card to view full details and the pickup location. Filter by category below.</p>
+
+  <input type="radio" name="tab" id="t-all"   class="tab-radio" checked/>
+  <input type="radio" name="tab" id="t-elec"  class="tab-radio"/>
+  <input type="radio" name="tab" id="t-cloth" class="tab-radio"/>
+  <input type="radio" name="tab" id="t-stat"  class="tab-radio"/>
+  <input type="radio" name="tab" id="t-id"    class="tab-radio"/>
+  <input type="radio" name="tab" id="t-keys"  class="tab-radio"/>
+  <input type="radio" name="tab" id="t-acc"   class="tab-radio"/>
+
+  <div class="tab-bar">
+    <label for="t-all"   class="tab-lbl">All</label>
+    <label for="t-elec"  class="tab-lbl">📱 Electronics</label>
+    <label for="t-cloth" class="tab-lbl">👕 Clothing</label>
+    <label for="t-stat"  class="tab-lbl">📚 Stationery</label>
+    <label for="t-id"    class="tab-lbl">🪪 ID / Cards</label>
+    <label for="t-keys"  class="tab-lbl">🔑 Keys</label>
+    <label for="t-acc"   class="tab-lbl">🎒 Accessories</label>
+  </div>
+
+  <div class="items-grid">
+    <a href="#modal-headphones" class="item-card" data-cat="electronics">
+      <div class="item-img bg-g"><span>🎧</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Electronics</div><div class="item-name">Sony Headphones</div><div class="item-desc">Black over-ear headphones, case missing.</div><div class="item-footer"><div class="item-loc">📍 Library</div><div class="item-date">Jan 5</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-id" class="item-card" data-cat="id">
+      <div class="item-img bg-y"><span>🪪</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">ID / Cards</div><div class="item-name">Student ID Card</div><div class="item-desc">ID card found near cafeteria. Name visible.</div><div class="item-footer"><div class="item-loc">📍 Fleming Block</div><div class="item-date">Jan 4</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-keys" class="item-card" data-cat="keys">
+      <div class="item-img bg-b"><span>🔑</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Keys</div><div class="item-name">Key Bundle</div><div class="item-desc">5-key bundle with a distinctive blue smiley keychain.</div><div class="item-footer"><div class="item-loc">📍 Parking Area</div><div class="item-date">Jan 4</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-bag" class="item-card" data-cat="accessories">
+      <div class="item-img bg-o"><span>🎒</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Accessories</div><div class="item-name">Navy Backpack</div><div class="item-desc">Medium navy backpack with a laptop sleeve inside.</div><div class="item-footer"><div class="item-loc">📍 Turing Block</div><div class="item-date">Jan 3</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-phone" class="item-card" data-cat="electronics">
+      <div class="item-img bg-g"><span>📱</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Electronics</div><div class="item-name">iPhone 13 (Black)</div><div class="item-desc">Locked iPhone 13, no visible damage. Blue case.</div><div class="item-footer"><div class="item-loc">📍 Sportorium</div><div class="item-date">Jan 3</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-hoodie" class="item-card" data-cat="clothing">
+      <div class="item-img bg-p"><span>👕</span><span class="item-status s-claimed">Claimed</span></div>
+      <div class="item-body"><div class="item-cat">Clothing</div><div class="item-name">Grey Hoodie</div><div class="item-desc">XL grey hoodie left on a cafeteria chair. No name tag.</div><div class="item-footer"><div class="item-loc">📍 Dohful</div><div class="item-date">Jan 2</div></div><div class="item-btn item-btn-claimed">Already Claimed</div></div>
+    </a>
+    <a href="#modal-bottle" class="item-card" data-cat="accessories">
+      <div class="item-img bg-b"><span>🍶</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Accessories</div><div class="item-name">Steel Water Bottle</div><div class="item-desc">Silver insulated bottle with a university sticker.</div><div class="item-footer"><div class="item-loc">📍 Darwin Block</div><div class="item-date">Jan 2</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+    <a href="#modal-book" class="item-card" data-cat="stationery">
+      <div class="item-img bg-y"><span>📖</span><span class="item-status s-found">Found</span></div>
+      <div class="item-body"><div class="item-cat">Stationery</div><div class="item-name">Engineering Notebook</div><div class="item-desc">Blue spiral notebook, name written on inside cover.</div><div class="item-footer"><div class="item-loc">📍 Library — Reading Section</div><div class="item-date">Jan 1</div></div><div class="item-btn">View &amp; Claim →</div></div>
+    </a>
+  </div>
+</section>
+
+</div>
+
+
+<div class="page" id="page-report">
+<!-- ════ REPORT FORM ════ -->
+<section id="report">
+  <span class="tag">Found Something?</span>
+  <h2 class="sec-title">Report a Found Item</h2>
+  <p class="sec-sub">Help someone get their stuff back. Fill in the details and we'll list it on FindIt for the campus to see.</p>
+
+  <div class="report-grid">
+    <div class="form-card">
+      <h3>📋 Item Details</h3>
+      <form action="#" method="post" novalidate aria-label="Report a found item">
+      <div class="fg"><label for="item-name">Item Name *</label><input type="text" id="item-name" name="item_name" placeholder="e.g. Black Sony Headphones" required aria-required="true"/></div>
+      <div class="fg-row">
+        <div class="fg"><label for="item-cat">Category *</label>
+          <select id="item-cat" name="category" required aria-required="true">
+            <option value="">Select category…</option>
+            <option>📱 Electronics</option>
+            <option>👕 Clothing</option>
+            <option>📚 Stationery / Books</option>
+            <option>🪪 ID / Cards / Documents</option>
+            <option>🔑 Keys</option>
+            <option>🎒 Bags / Accessories</option>
+            <option>💍 Jewellery / Watches</option>
+            <option>🍱 Food / Water Bottles</option>
+            <option>🧩 Other</option>
+          </select>
+        </div>
+        <div class="fg"><label for="item-date">Date Found *</label><input type="date" id="item-date" name="date_found" required aria-required="true"/></div>
+      </div>
+      <div class="fg"><label for="item-desc">Description *</label><textarea id="item-desc" name="description" rows="3" placeholder="Color, brand, distinguishing features, condition…" required aria-required="true"></textarea></div>
+      <div class="fg">
+        <label for="item-photos">📷 Upload Photos *</label>
+        <div class="upload-zone">
+          <input type="file" id="item-photos" name="photos" accept="image/*" multiple aria-label="Upload photos of the found item"/>
+          <div class="upload-icon-big">📸</div>
+          <p>Click or drag &amp; drop photos here</p>
+          <span>JPG, PNG, WEBP — up to 5 images</span>
+        </div>
+      </div>
+
+      <!-- Campus Map with CSS-only pin -->
+      <div class="fg">
+        <label>📍 Pin Pickup Location on Campus Map *</label>
+        <p style="font-size:.82rem;color:var(--g3);margin-bottom:6px;">Click a building on the map to drop a pin. Scroll to explore the full campus.</p>
+
+        <!-- 30 radio inputs -->
+        <input type="radio" name="campus-pin" id="pr-gate"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-fleming"  class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-martin"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-rock"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-picasso"  class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-explor"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-sport"    class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-sq1"      class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-sq2"      class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-turing"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-studio"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-demorgan" class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-library"  class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-darwin"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-tesla"    class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-exphub"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-dice"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-hotel"    class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-boys"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-girls"    class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-alpha"    class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-beta"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-basket"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-volley"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-pickle"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-football" class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-parking"  class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-dohful"   class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-gali"     class="pr"/>
+        <input type="radio" name="campus-pin" id="pr-corbu"    class="pr"/>
+
+        <div class="map-box">
+          <div class="map-inner">
+            <div class="map-grid-lines"></div>
+
+            <!-- ROW 1 — Top strip (entrance area) -->
+            <div class="map-bld" style="left:2%;top:2%;width:8%;height:8%;">🚪<br/>Main Gate</div>
+            <div class="map-bld" style="left:12%;top:2%;width:10%;height:10%;">🅿️<br/>Parking</div>
+            <div class="map-bld" style="left:24%;top:2%;width:10%;height:10%;">🏠<br/>Boys Hostel</div>
+            <div class="map-bld" style="left:36%;top:2%;width:10%;height:10%;">🏠<br/>Girls Hostel</div>
+            <div class="map-bld" style="left:48%;top:2%;width:10%;height:10%;">☕<br/>Dohful</div>
+            <div class="map-bld" style="left:60%;top:2%;width:11%;height:10%;">🏟<br/>Sportorium</div>
+            <div class="map-bld" style="left:73%;top:2%;width:11%;height:10%;">🏀<br/>Basketball</div>
+            <div class="map-bld" style="left:86%;top:2%;width:12%;height:10%;">🏐<br/>Volleyball</div>
+
+            <!-- ROW 2 -->
+            <div class="map-bld" style="left:2%;top:16%;width:13%;height:11%;">🔬<br/>Fleming Block</div>
+            <div class="map-bld" style="left:17%;top:16%;width:13%;height:11%;">✝️<br/>Martin Luther</div>
+            <div class="map-bld" style="left:32%;top:16%;width:13%;height:11%;">🏛<br/>Rockefeller</div>
+            <div class="map-bld" style="left:47%;top:16%;width:12%;height:11%;">🎨<br/>Picasso Block</div>
+            <div class="map-bld" style="left:61%;top:16%;width:12%;height:11%;">🔭<br/>Exploratorium</div>
+            <div class="map-bld" style="left:75%;top:16%;width:11%;height:11%;">🏸<br/>Pickleball</div>
+            <div class="map-bld" style="left:88%;top:16%;width:10%;height:11%;">⚽<br/>Football</div>
+
+            <!-- ROW 3 — Middle zone -->
+            <div class="map-bld" style="left:2%;top:31%;width:12%;height:11%;">📚<br/>Library</div>
+            <div class="map-bld" style="left:16%;top:31%;width:13%;height:11%;">🧬<br/>Darwin Block</div>
+            <div class="map-bld" style="left:31%;top:31%;width:12%;height:11%;">⚡<br/>Tesla Block</div>
+            <div class="map-bld" style="left:45%;top:31%;width:12%;height:11%;">🔍<br/>Explore Hub</div>
+            <div class="map-bld" style="left:59%;top:31%;width:10%;height:11%;">🎲<br/>Dice Lab</div>
+            <div class="map-bld" style="left:71%;top:31%;width:13%;height:11%;">🍴<br/>Hotel Mgmt</div>
+            <div class="map-bld" style="left:86%;top:31%;width:12%;height:11%;">🎓<br/>Gallelio</div>
+
+            <!-- ROW 4 — Lower zone -->
+            <div class="map-bld" style="left:2%;top:46%;width:12%;height:11%;">💻<br/>Turing Block</div>
+            <div class="map-bld" style="left:16%;top:46%;width:12%;height:11%;">🎬<br/>Studio</div>
+            <div class="map-bld" style="left:30%;top:46%;width:13%;height:11%;">📐<br/>DeMorgan</div>
+            <div class="map-bld" style="left:45%;top:46%;width:13%;height:11%;">🏗<br/>Le Corbusier</div>
+            <div class="map-bld" style="left:60%;top:46%;width:10%;height:11%;">🅰<br/>Alpha Zone</div>
+            <div class="map-bld" style="left:72%;top:46%;width:10%;height:11%;">🅱<br/>Beta Zone</div>
+            <div class="map-bld" style="left:84%;top:46%;width:14%;height:11%;">🏢<br/>Square One</div>
+
+            <!-- ROW 5 — Bottom -->
+            <div class="map-bld" style="left:2%;top:62%;width:14%;height:11%;">🏢<br/>Square Two</div>
+
+            <!-- Clickable overlays (same positions as buildings) -->
+            <label for="pr-gate"     class="bld-lbl" style="left:2%;top:2%;width:8%;height:8%;"></label>
+            <label for="pr-parking"  class="bld-lbl" style="left:12%;top:2%;width:10%;height:10%;"></label>
+            <label for="pr-boys"     class="bld-lbl" style="left:24%;top:2%;width:10%;height:10%;"></label>
+            <label for="pr-girls"    class="bld-lbl" style="left:36%;top:2%;width:10%;height:10%;"></label>
+            <label for="pr-dohful"   class="bld-lbl" style="left:48%;top:2%;width:10%;height:10%;"></label>
+            <label for="pr-sport"    class="bld-lbl" style="left:60%;top:2%;width:11%;height:10%;"></label>
+            <label for="pr-basket"   class="bld-lbl" style="left:73%;top:2%;width:11%;height:10%;"></label>
+            <label for="pr-volley"   class="bld-lbl" style="left:86%;top:2%;width:12%;height:10%;"></label>
+            <label for="pr-fleming"  class="bld-lbl" style="left:2%;top:16%;width:13%;height:11%;"></label>
+            <label for="pr-martin"   class="bld-lbl" style="left:17%;top:16%;width:13%;height:11%;"></label>
+            <label for="pr-rock"     class="bld-lbl" style="left:32%;top:16%;width:13%;height:11%;"></label>
+            <label for="pr-picasso"  class="bld-lbl" style="left:47%;top:16%;width:12%;height:11%;"></label>
+            <label for="pr-explor"   class="bld-lbl" style="left:61%;top:16%;width:12%;height:11%;"></label>
+            <label for="pr-pickle"   class="bld-lbl" style="left:75%;top:16%;width:11%;height:11%;"></label>
+            <label for="pr-football" class="bld-lbl" style="left:88%;top:16%;width:10%;height:11%;"></label>
+            <label for="pr-library"  class="bld-lbl" style="left:2%;top:31%;width:12%;height:11%;"></label>
+            <label for="pr-darwin"   class="bld-lbl" style="left:16%;top:31%;width:13%;height:11%;"></label>
+            <label for="pr-tesla"    class="bld-lbl" style="left:31%;top:31%;width:12%;height:11%;"></label>
+            <label for="pr-exphub"   class="bld-lbl" style="left:45%;top:31%;width:12%;height:11%;"></label>
+            <label for="pr-dice"     class="bld-lbl" style="left:59%;top:31%;width:10%;height:11%;"></label>
+            <label for="pr-hotel"    class="bld-lbl" style="left:71%;top:31%;width:13%;height:11%;"></label>
+            <label for="pr-gali"     class="bld-lbl" style="left:86%;top:31%;width:12%;height:11%;"></label>
+            <label for="pr-turing"   class="bld-lbl" style="left:2%;top:46%;width:12%;height:11%;"></label>
+            <label for="pr-studio"   class="bld-lbl" style="left:16%;top:46%;width:12%;height:11%;"></label>
+            <label for="pr-demorgan" class="bld-lbl" style="left:30%;top:46%;width:13%;height:11%;"></label>
+            <label for="pr-corbu"    class="bld-lbl" style="left:45%;top:46%;width:13%;height:11%;"></label>
+            <label for="pr-alpha"    class="bld-lbl" style="left:60%;top:46%;width:10%;height:11%;"></label>
+            <label for="pr-beta"     class="bld-lbl" style="left:72%;top:46%;width:10%;height:11%;"></label>
+            <label for="pr-sq1"      class="bld-lbl" style="left:84%;top:46%;width:14%;height:11%;"></label>
+            <label for="pr-sq2"      class="bld-lbl" style="left:2%;top:62%;width:14%;height:11%;"></label>
+
+            <!-- Pin markers (offset above each building) -->
+            <div class="pin-mk pin-gate"     style="left:6%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-parking"  style="left:17%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-boys"     style="left:29%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-girls"    style="left:41%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-dohful"   style="left:53%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-sport"    style="left:65%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-basket"   style="left:78%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-volley"   style="left:92%;top:-2%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-fleming"  style="left:8%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-martin"   style="left:23%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-rock"     style="left:38%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-picasso"  style="left:53%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-explor"   style="left:67%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-pickle"   style="left:80%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-football" style="left:93%;top:10%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-library"  style="left:8%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-darwin"   style="left:22%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-tesla"    style="left:37%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-exphub"   style="left:51%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-dice"     style="left:64%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-hotel"    style="left:77%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-gali"     style="left:92%;top:25%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-turing"   style="left:8%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-studio"   style="left:22%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-demorgan" style="left:36%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-corbu"    style="left:51%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-alpha"    style="left:65%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-beta"     style="left:77%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-sq1"      style="left:91%;top:40%;"><div class="pe">📍</div><div class="pp"></div></div>
+            <div class="pin-mk pin-sq2"      style="left:9%;top:56%;"><div class="pe">📍</div><div class="pp"></div></div>
+
+            <div class="map-hint">🗺️ Click a building to mark the pickup spot</div>
+          </div><!-- end .map-inner -->
+        </div><!-- end .map-box -->
+
+        <!-- Location tag shown after pin -->
+        <div class="loc-tag loc-tag-gate">📍 Pinned: Main Gate</div>
+        <div class="loc-tag loc-tag-fleming">📍 Pinned: Fleming Block</div>
+        <div class="loc-tag loc-tag-martin">📍 Pinned: Martin Luther Block</div>
+        <div class="loc-tag loc-tag-rock">📍 Pinned: Rockefeller Block</div>
+        <div class="loc-tag loc-tag-picasso">📍 Pinned: Picasso Block</div>
+        <div class="loc-tag loc-tag-explor">📍 Pinned: Exploratorium</div>
+        <div class="loc-tag loc-tag-sport">📍 Pinned: Sportorium</div>
+        <div class="loc-tag loc-tag-sq1">📍 Pinned: Square One</div>
+        <div class="loc-tag loc-tag-sq2">📍 Pinned: Square Two</div>
+        <div class="loc-tag loc-tag-turing">📍 Pinned: Turing Block</div>
+        <div class="loc-tag loc-tag-studio">📍 Pinned: Studio</div>
+        <div class="loc-tag loc-tag-demorgan">📍 Pinned: DeMorgan Block</div>
+        <div class="loc-tag loc-tag-library">📍 Pinned: Library</div>
+        <div class="loc-tag loc-tag-darwin">📍 Pinned: Darwin Block</div>
+        <div class="loc-tag loc-tag-tesla">📍 Pinned: Tesla Block</div>
+        <div class="loc-tag loc-tag-exphub">📍 Pinned: Explore Hub</div>
+        <div class="loc-tag loc-tag-dice">📍 Pinned: Dice Lab</div>
+        <div class="loc-tag loc-tag-hotel">📍 Pinned: Hotel Management Block</div>
+        <div class="loc-tag loc-tag-boys">📍 Pinned: Boys Hostel</div>
+        <div class="loc-tag loc-tag-girls">📍 Pinned: Girls Hostel</div>
+        <div class="loc-tag loc-tag-alpha">📍 Pinned: Alpha Zone</div>
+        <div class="loc-tag loc-tag-beta">📍 Pinned: Beta Zone</div>
+        <div class="loc-tag loc-tag-basket">📍 Pinned: Basketball Court</div>
+        <div class="loc-tag loc-tag-volley">📍 Pinned: Volleyball Court</div>
+        <div class="loc-tag loc-tag-pickle">📍 Pinned: Pickleball Court</div>
+        <div class="loc-tag loc-tag-football">📍 Pinned: Football Ground</div>
+        <div class="loc-tag loc-tag-parking">📍 Pinned: Parking Area</div>
+        <div class="loc-tag loc-tag-dohful">📍 Pinned: Dohful</div>
+        <div class="loc-tag loc-tag-gali">📍 Pinned: Galileo Block</div>
+        <div class="loc-tag loc-tag-corbu">📍 Pinned: Le Corbusier Block</div>
+      </div>
+
+      <div class="fg"><label for="item-spot">Specific Spot (optional)</label><input type="text" id="item-spot" name="specific_spot" placeholder="e.g. &quot;Near main entrance&quot;, &quot;Room 204&quot;"/></div>
+      <div class="fg-row">
+        <div class="fg"><label for="finder-name">Your Name *</label><input type="text" id="finder-name" name="finder_name" placeholder="Full name" required aria-required="true"/></div>
+        <div class="fg"><label for="finder-role">Your Role *</label>
+          <select id="finder-role" name="role" required aria-required="true"><option value="">Select…</option><option>Student</option><option>Professor</option><option>Staff</option></select>
+        </div>
+      </div>
+      <div class="fg"><label for="finder-email">Contact Email *</label><input type="email" id="finder-email" name="email" placeholder="yourname@university.edu" required aria-required="true"/></div>
+      <button class="submit-btn" type="submit">🚀 Submit Found Item</button>
+      </form>
+    </div>
+
+    <div class="info-stack">
+      <div class="info-card">
+        <h4>🗂️ Item Categories</h4>
+        <div class="cat-chips">
+          <span class="chip">📱 Electronics</span><span class="chip">👕 Clothing</span><span class="chip">📚 Stationery</span><span class="chip">🪪 ID Cards</span><span class="chip">🔑 Keys</span><span class="chip">🎒 Bags</span><span class="chip">💍 Jewellery</span><span class="chip">🍱 Bottles</span><span class="chip">🧩 Other</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <h4>💡 Tips for a Good Listing</h4>
+        <ul class="tip-list">
+          <li><span>📸</span><span>Take clear, well-lit photos from multiple angles</span></li>
+          <li><span>🔍</span><span>Mention unique identifiers — color, brand, engravings</span></li>
+          <li><span>📍</span><span>Be specific about the exact collection point location</span></li>
+          <li><span>⏰</span><span>Post as soon as possible for faster reunions</span></li>
+          <li><span>🔒</span><span>Never publicly expose personal data from ID cards</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>📞 Need Help?</h4>
+        <p style="font-size:.88rem;color:#5a6b7e;line-height:1.7;margin-bottom:12px;">For urgent items like university IDs or wallets, contact campus security directly.</p>
+        <p style="font-size:.86rem;font-weight:800;color:var(--green-dark);">📞 Campus Security: Ext. 1001</p>
+        <p style="font-size:.86rem;font-weight:800;color:var(--blue);margin-top:6px;">🏢 Admin Office: Room 101, Block Martin</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<div class="page" id="page-about">
+<!-- ════ ABOUT ════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-vis">
+      <div class="emoji-big">🎓</div>
+      <h3>Serving Our Campus Community</h3>
+      <p>FindIt was built to make campus life a little less stressful for everyone.</p>
+      <div class="stat-grid">
+        <div class="astat"><div class="n">124<b>+</b></div><div class="l">Items Returned</div></div>
+        <div class="astat"><div class="n">600<b>+</b></div><div class="l">Students Helped</div></div>
+        <div class="astat"><div class="n">38</div><div class="l">Active Listings</div></div>
+        <div class="astat"><div class="n">96<b>%</b></div><div class="l">Match Rate</div></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="tag">About FindIt</span>
+      <h2 class="sec-title">Built for students,<br>by students 💚</h2>
+      <p>FindIt is a campus-wide lost and found platform that makes it effortless to report, discover, and reclaim lost items. Whether you're a student, professor, or staff — everyone's part of our finder community.</p>
+      <p>We believe small acts of honesty build a stronger campus culture. By using FindIt, you're not just recovering a phone or keys — you're helping build trust across the university.</p>
+      <ul class="val-list">
+        <li><div class="vi">💚</div><div><strong>Community first</strong> — every campus member can contribute and benefit</div></li>
+        <li><div class="vi">🔒</div><div><strong>Privacy safe</strong> — we never expose sensitive personal information publicly</div></li>
+        <li><div class="vi">⚡</div><div><strong>Fast &amp; simple</strong> — post a found item in under 2 minutes, no account needed</div></li>
+        <li><div class="vi">📍</div><div><strong>Location pinning</strong> — clear pickup points so there's never any confusion</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<div class="page" id="page-contact">
+<!-- ════ CONTACT ════ -->
+<section id="contact">
+  <span class="tag">Get In Touch</span>
+  <h2 class="sec-title">Contact Us</h2>
+  <p class="sec-sub">Have a question, found something urgent, or want to suggest a feature? We'd love to hear from you.</p>
+  <div class="contact-grid">
+    <div class="contact-form">
+      <h3>Send a Message</h3>
+      <form action="#" method="post" novalidate aria-label="Contact form">
+      <div class="fg"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required aria-required="true"/></div>
+      <div class="fg"><label for="c-email">Email</label><input type="email" id="c-email" name="email" placeholder="yourname@university.edu.in" required aria-required="true"/></div>
+      <div class="fg"><label for="c-subject">Subject</label>
+        <select id="c-subject" name="subject"><option>I found an urgent item</option><option>I'm looking for my item</option><option>Report an issue</option><option>Feature suggestion</option><option>General question</option></select>
+      </div>
+      <div class="fg"><label for="c-msg">Message</label><textarea id="c-msg" name="message" rows="4" placeholder="Tell us what's on your mind…" required aria-required="true"></textarea></div>
+      <button class="submit-btn" type="submit">Send Message 💬</button>
+      </form>
+    </div>
+    <div class="contact-info-col">
+      <div class="ccard"><div class="cicon">🏢</div><div><h4>Admin Office</h4><p>Room 101, Block A<br>University Campus<br>Mon–Fri, 9am – 5pm</p></div></div>
+      <div class="ccard"><div class="cicon">📞</div><div><h4>Campus Security (24/7)</h4><p>Extension 1001 (internal)<br>+91-XXXXX-XXXXX (external)</p></div></div>
+      <div class="ccard"><div class="cicon">📧</div><div><h4>Email Us</h4><p><span class="__cf_email__" data-cfemail="62040b0c060b1622170c0b140710110b161b4c070617">[email&#160;protected]</span><br>We respond within 24 hours</p></div></div>
+      <div class="ccard"><div class="cicon">💬</div><div><h4>Student Helpdesk</h4><p>Available at the Student Union<br>or via the student portal</p></div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="f-brand">
+      <a href="#" class="nav-logo" style="color:#fff;">
+        <div class="logo-box">🔍</div>Find<span class="logo-dot">It</span>
+      </a>
+      <p>Your campus lost &amp; found portal. Helping the university community reunite with their belongings since 2025.</p>
+    </div>
+    <div class="f-col"><h5>Navigate</h5><ul><li><a href="#">Home</a></li><li><a href="#">How It Works</a></li><li><a href="#">Browse Items</a></li><li><a href="#">Report Found</a></li></ul></div>
+    <div class="f-col"><h5>Categories</h5><ul><li><a href="#">Electronics</a></li><li><a href="#">ID &amp; Cards</a></li><li><a href="#">Keys</a></li><li><a href="#">Clothing</a></li></ul></div>
+    <div class="f-col"><h5>Help</h5><ul><li><a href="#">About FindIt</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Report Abuse</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 FindIt — Campus Lost &amp; Found Portal. Made with 💚 for our university community.</span>
+    <span>Built for <a href="#">Chitkara University</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
