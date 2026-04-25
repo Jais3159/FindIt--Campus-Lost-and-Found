@@ -362,6 +362,7 @@ function checkLoginState() {
   const loginPage = document.getElementById('login-page');
   const appContent = document.getElementById('app-content');
   const navProfileBtn = document.getElementById('nav-profile-btn');
+  const mobProfileBtn = document.getElementById('mob-profile-btn');
   const profileSidText = document.getElementById('profile-sid-text');
   const adminBtn = document.getElementById('prof-admin-btn');
   
@@ -369,6 +370,7 @@ function checkLoginState() {
     if(loginPage) loginPage.style.display = 'none';
     if(appContent) appContent.style.display = 'block';
     if(navProfileBtn) navProfileBtn.innerHTML = `👤 ${currentUser}`;
+    if(mobProfileBtn) mobProfileBtn.innerHTML = `👤 ${currentUser}`;
     if(profileSidText) profileSidText.textContent = `Roll No: ${currentUser}`;
     
     // Only show Admin button for specific Roll No
