@@ -347,9 +347,10 @@ function submitClaim() {
   if (itemIndex > -1) {
     items[itemIndex].status = 'pending';
     items[itemIndex].claimerId = sid;
+    items[itemIndex].claimerName = name;
     localStorage.setItem('findit_items', JSON.stringify(items));
     
-    alert(`Claim requested successfully!\nYour Student ID (${sid}) has been logged.\nThe finder has been notified and will contact you to verify your proof of ownership.`);
+    alert(`Claim requested successfully!\nName: ${name}\nStudent ID: ${sid}\nThe finder has been notified and will contact you to verify your proof of ownership.`);
     
     window.location.hash = '#page-browse';
     renderItems();
