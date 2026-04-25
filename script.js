@@ -417,9 +417,7 @@ function handleMainLogin() {
   
   if(pass !== currentValidPass) {
     if(errorDiv) {
-      errorDiv.textContent = currentValidPass === "CUPunjab" 
-        ? "Invalid password. (Demo Hint: CUPunjab)"
-        : "Invalid password.";
+      errorDiv.textContent = "Invalid password.";
       errorDiv.style.display = 'block';
     }
     return;
