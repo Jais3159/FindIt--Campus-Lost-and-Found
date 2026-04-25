@@ -841,33 +841,33 @@
           <h5>Navigate</h5>
           <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">How It Works</a></li>
-            <li><a href="#">Browse Items</a></li>
-            <li><a href="#">Report Found</a></li>
+            <li><a href="#page-how">How It Works</a></li>
+            <li><a href="#page-browse">Browse Items</a></li>
+            <li><a href="#page-report">Report Found</a></li>
           </ul>
         </div>
         <div class="f-col">
           <h5>Categories</h5>
           <ul>
-            <li><a href="#">Electronics</a></li>
-            <li><a href="#">ID &amp; Cards</a></li>
-            <li><a href="#">Keys</a></li>
-            <li><a href="#">Clothing</a></li>
+            <li><a href="#page-browse" onclick="document.getElementById('t-elec').click()">Electronics</a></li>
+            <li><a href="#page-browse" onclick="document.getElementById('t-id').click()">ID &amp; Cards</a></li>
+            <li><a href="#page-browse" onclick="document.getElementById('t-keys').click()">Keys</a></li>
+            <li><a href="#page-browse" onclick="document.getElementById('t-cloth').click()">Clothing</a></li>
           </ul>
         </div>
         <div class="f-col">
           <h5>Help</h5>
           <ul>
-            <li><a href="#">About FindIt</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Report Abuse</a></li>
+            <li><a href="#page-how">About FindIt</a></li>
+            <li><a href="#page-contact">Contact</a></li>
+            <li><a href="#" onclick="alert('Privacy Policy:\n\nStudent data is stored strictly and securely. IP addresses are logged exclusively for Anti-Theft monitoring.'); return false;">Privacy Policy</a></li>
+            <li><a href="#page-contact" onclick="document.getElementById('c-subject').value='Report an issue'">Report Abuse</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© 2025 FindIt — Campus Lost &amp; Found Portal. Made with 💚 for our university community.</span>
-        <span>Built for <a href="#">Chitkara University</a></span>
+        <span>Built for <a href="https://www.chitkara.edu.in/" target="_blank">Chitkara University</a></span>
       </div>
     </footer>
 
