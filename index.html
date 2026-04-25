@@ -236,7 +236,7 @@
       <div class="fg">
         <label for="item-photos">📷 Upload Photos *</label>
         <div class="upload-zone">
-          <input type="file" id="item-photos" name="photos" accept="image/*" multiple aria-label="Upload photos of the found item"/>
+          <input type="file" id="item-photos" name="photos" accept="image/*" capture="environment" multiple aria-label="Upload photos of the found item"/>
           <div class="upload-icon-big">📸</div>
           <p>Click or drag &amp; drop photos here</p>
           <span>JPG, PNG, WEBP — up to 5 images</span>
@@ -507,7 +507,7 @@
   <div class="contact-grid">
     <div class="contact-form">
       <h3>Send a Message</h3>
-      <form action="#" method="post" novalidate aria-label="Contact form">
+      <form id="contact-form-ui" action="#" method="post" novalidate aria-label="Contact form">
       <div class="fg"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required aria-required="true"/></div>
       <div class="fg"><label for="c-email">Email</label><input type="email" id="c-email" name="email" placeholder="yourname@university.edu.in" required aria-required="true"/></div>
       <div class="fg"><label for="c-subject">Subject</label>
@@ -582,7 +582,19 @@
       <div id="prof-pass-msg" style="font-size:0.85rem; margin-top:8px; text-align:center; display:none; font-weight:bold;"></div>
     </div>
     
+    <a href="#modal-admin-inbox" id="prof-admin-btn" onclick="loadAdminInbox()" style="display:none; width:100%; text-align:center; padding:10px; background:#f59e0b; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📥 Admin: View Messages</a>
     <button onclick="handleLogout()" class="btn" style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign Out of Portal</button>
+  </div>
+</div>
+
+<!-- ════ ADMIN INBOX MODAL ════ -->
+<div class="modal-overlay" id="modal-admin-inbox">
+  <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+    <a href="#" class="modal-close">×</a>
+    <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📥 Admin Inbox</h3>
+    <div id="admin-messages-container">
+      <!-- Messages injected here -->
+    </div>
   </div>
 </div>
 
@@ -602,6 +614,11 @@
     
     <div class="modal-actions" id="modal-actions-default">
       <a href="#" class="btn btn-green" onclick="showClaimForm(); return false;">Request Claim</a>
+    </div>
+    
+    <div id="modal-pending-msg" style="display:none; margin-top:20px; padding:15px; background:#fff3cc; border-radius:10px; border:2px solid #f5b041; text-align:center;">
+      <h4 style="color:#b28900; margin-bottom:5px;">Verification Pending 🟠</h4>
+      <p style="font-size:0.85rem; color:#856600; margin:0;">Someone has claimed this item. We are currently verifying their proof of ownership.</p>
     </div>
 
     <!-- The Claim Form -->
