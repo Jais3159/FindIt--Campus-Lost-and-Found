@@ -530,8 +530,21 @@ function loadAdminInbox() {
         <div style="font-weight:bold; color:var(--navy); font-size:1rem; margin-bottom:4px;">${m.name} <span style="font-weight:normal; font-size:0.85rem;">(${m.email})</span></div>
         <div style="font-size:0.85rem; font-weight:800; color:#cc2027; margin-bottom:8px; text-transform:uppercase;">Subject: ${m.subject}</div>
         <div style="font-size:0.95rem; color:#334155; line-height:1.5; margin-bottom:12px;">${m.message}</div>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.email)}&su=${encodeURIComponent('Re: ' + m.subject)}&body=${encodeURIComponent('Hello ' + m.name + ',\n\nRegarding your message on FindIt:\n"' + m.message + '"\n\n')}" target="_blank" style="display:inline-block; padding:6px 12px; background:#ea4335; color:#fff; text-decoration:none; border-radius:5px; font-size:0.85rem; font-weight:bold;">✉️ Reply via Gmail</a>
+        <div style="display:flex; gap:10px;">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.email)}&su=${encodeURIComponent('Re: ' + m.subject)}&body=${encodeURIComponent('Hello ' + m.name + ',\n\nRegarding your message on FindIt:\n"' + m.message + '"\n\n')}" target="_blank" style="display:inline-block; padding:6px 12px; background:#ea4335; color:#fff; text-decoration:none; border-radius:5px; font-size:0.85rem; font-weight:bold;">✉️ Reply via Gmail</a>
+          <button onclick="deleteAdminMessage('${m.id}')" style="padding:6px 12px; background:#e2e8f0; color:#334155; border:none; border-radius:5px; font-size:0.85rem; font-weight:bold; cursor:pointer;">🗑️ Delete</button>
+        </div>
       </div>
     `).join('');
   }
+}
+
+function deleteAdminMessage(id) {
+  if(!confirm("Are you sure you want to delete this message?")) return;
+  
+  let messages = JSON.parse(localStorage.getItem('findit_messages') || '[]');
+  messages = messages.filter(m => m.id && m.id.toString() !== id.toString());
+  
+  localStorage.setItem('findit_messages', JSON.stringify(messages));
+  loadAdminInbox();
 }
