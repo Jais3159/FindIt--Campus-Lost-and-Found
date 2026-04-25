@@ -7,10 +7,53 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232ec37c'/><circle cx='27' cy='27' r='13' fill='none' stroke='white' stroke-width='5'/><line x1='36' y1='36' x2='50' y2='50' stroke='white' stroke-width='5' stroke-linecap='round'/></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css">
- 
+  <script src="script.js" defer></script>
 </head>
 <body>
 
+<!-- ════ LOGIN PAGE (Chalkpad Style) ════ -->
+<div id="login-page" style="display:flex; position:fixed; inset:0; z-index:9999; background: url('https://www.chitkara.edu.in/wp-content/themes/chitkara/images/landing-pages/glorious-future/chitkara-maingate.jpg') center center / cover no-repeat; align-items:center; justify-content:flex-end; padding-right:12%;">
+  
+  <div style="background:#fff; width:100%; max-width:320px; padding:30px 25px; box-shadow:0 0 10px rgba(0,0,0,0.5); text-align:left; font-family: Arial, sans-serif;">
+    
+    <div style="text-align:center; border-bottom:1px solid #ddd; padding-bottom:15px; margin-bottom:15px;">
+      <img src="https://www.chitkara.edu.in/wp-content/themes/chitkara/images/logo.png" alt="Chitkara University" style="max-width:180px; margin-bottom:10px;">
+      <div style="font-size:0.85rem; color:#333; line-height:1.3;">Chitkara University Institute of<br>Engineering & Technology</div>
+    </div>
+    
+    <div style="margin-bottom:12px;">
+      <label style="font-size:0.95rem; color:#000; display:block; margin-bottom:4px;">Username</label>
+      <input type="text" id="main-login-sid" pattern="\d*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" style="width:100%; padding:6px 8px; border:1.5px solid #000; border-radius:0; font-size:0.95rem; outline:none;" autofocus>
+    </div>
+    
+    <div style="margin-bottom:12px;">
+      <label style="font-size:0.95rem; color:#000; display:block; margin-bottom:4px;">Password</label>
+      <input type="password" id="main-login-pass" style="width:100%; padding:6px 8px; border:1px solid #8ca3b8; border-radius:0; font-size:0.95rem; outline:none;">
+      <div id="login-error" style="color:#c53026; font-size:0.85rem; font-weight:bold; margin-top:6px; display:none;"></div>
+    </div>
+    
+    <div style="margin-bottom:15px;">
+      <label style="font-size:0.95rem; color:#000; display:block; margin-bottom:4px;">Session</label>
+      <select style="width:100%; padding:6px; border:1px solid #8ca3b8; border-radius:0; font-size:0.95rem; outline:none; background:#fff;">
+        <option>Jan-Jun2026</option>
+      </select>
+    </div>
+    
+    <div style="margin-bottom:15px; display:flex; align-items:center; gap:6px;">
+      <input type="checkbox" id="remember" style="margin:0;">
+      <label for="remember" style="font-size:0.85rem; color:#000;">Remember Password</label>
+    </div>
+    
+    <button onclick="handleMainLogin()" style="width:100%; padding:8px; background:#c53026; color:#fff; border:none; font-size:1.15rem; font-weight:bold; cursor:pointer; margin-bottom:10px;">Sign In</button>
+    
+    <div style="font-size:0.85rem; color:#000;">
+      Forgot your password? <a href="#" onclick="handleForgotPassword(); return false;">Click here</a>
+    </div>
+    
+  </div>
+</div>
+
+<div id="app-content" style="display:none;">
 <!-- ════ DARK MODE TOGGLE INPUT ════ -->
 <!-- <input type="checkbox" id="dark-toggle" aria-label="Toggle dark mode"/> -->
 
@@ -26,9 +69,20 @@
     <li><a href="#page-browse">Browse Items</a></li>
     <li><a href="#page-about">About</a></li>
     <li><a href="#page-contact">Contact</a></li>
-    <li><a href="#page-report" class="nav-cta">📷 Report Found</a></li>
-    </ul>
+    <li style="display:flex; gap:12px; align-items:center;">
+      <a href="#page-report" class="nav-cta">📷 Report Found</a>
+      <a href="#modal-profile" id="nav-profile-btn" class="nav-cta" style="background:transparent; color:var(--green); border:1px solid var(--green);">👤 Profile</a>
+    </li>
+  </ul>
 </nav>
+
+<!-- ════ LIVE RADAR TICKER ════ -->
+<div class="live-ticker" style="background:#0f172a; color:#fff; padding:8px 0; font-size:0.85rem; font-weight:600; overflow:hidden; white-space:nowrap; border-bottom:3px solid #cc2027;">
+  <div id="ticker-content" style="display:inline-block; animation: tickerAnim 25s linear infinite; padding-left:100%;">
+    <!-- Dynamically injected by JS -->
+    <span class="t-item" style="margin-right: 40px;">Loading live radar...</span>
+  </div>
+</div>
 
 <div class="page" id="page-home">
 <section id="home" aria-label="Home">
@@ -97,6 +151,7 @@
   <input type="radio" name="tab" id="t-id"    class="tab-radio"/>
   <input type="radio" name="tab" id="t-keys"  class="tab-radio"/>
   <input type="radio" name="tab" id="t-acc"   class="tab-radio"/>
+  <input type="radio" name="tab" id="t-claimed" class="tab-radio"/>
 
   <div class="tab-bar">
     <label for="t-all"   class="tab-lbl">All</label>
@@ -106,9 +161,10 @@
     <label for="t-id"    class="tab-lbl">🪪 ID / Cards</label>
     <label for="t-keys"  class="tab-lbl">🔑 Keys</label>
     <label for="t-acc"   class="tab-lbl">🎒 Accessories</label>
+    <label for="t-claimed" class="tab-lbl" style="background:#fff3cc; border-color:#f5b041; color:#b28900;">✅ Already Claimed</label>
   </div>
 
-  <div class="items-grid">
+  <div class="items-grid" id="items-container">
     <a href="#modal-headphones" class="item-card" data-cat="electronics">
       <div class="item-img bg-g"><span>🎧</span><span class="item-status s-found">Found</span></div>
       <div class="item-body"><div class="item-cat">Electronics</div><div class="item-name">Sony Headphones</div><div class="item-desc">Black over-ear headphones, case missing.</div><div class="item-footer"><div class="item-loc">📍 Library</div><div class="item-date">Jan 5</div></div><div class="item-btn">View &amp; Claim →</div></div>
@@ -157,7 +213,7 @@
   <div class="report-grid">
     <div class="form-card">
       <h3>📋 Item Details</h3>
-      <form action="#" method="post" novalidate aria-label="Report a found item">
+      <form id="report-form" action="#" method="post" novalidate aria-label="Report a found item">
       <div class="fg"><label for="item-name">Item Name *</label><input type="text" id="item-name" name="item_name" placeholder="e.g. Black Sony Headphones" required aria-required="true"/></div>
       <div class="fg-row">
         <div class="fg"><label for="item-cat">Category *</label>
@@ -491,5 +547,92 @@
   </div>
 </footer>
 
+<!-- ════ LOGIN MODAL ════ -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal" style="max-width: 400px;">
+    <a href="#" class="modal-close">×</a>
+    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:8px;">Student Login</h3>
+    <p style="color:#5a6b7e; margin-bottom:24px; font-size:0.9rem;">Sign in with your University ID to verify your identity.</p>
+    
+    <div class="fg" style="margin-bottom:16px;">
+      <label style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Student ID / Roll No.</label>
+      <input type="text" id="login-sid" placeholder="e.g. 211099..." style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+    </div>
+    <div class="fg" style="margin-bottom:24px;">
+      <label style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Password</label>
+      <input type="password" id="login-pass" placeholder="Enter your password" style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+    </div>
+    <button class="btn btn-green" style="width:100%; justify-content:center; padding:12px; font-size:1rem; border:none; cursor:pointer;" onclick="handleLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- ════ PROFILE / SETTINGS MODAL ════ -->
+<div class="modal-overlay" id="modal-profile">
+  <div class="modal" style="max-width:350px; text-align:center;">
+    <a href="#" class="modal-close">×</a>
+    <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:5px;">Student Profile</h3>
+    <p id="profile-sid-text" style="color:#5a6b7e; margin-bottom:20px; font-weight:bold;">Roll No: ...</p>
+    
+    <!-- Password Change Section -->
+    <div style="background:#f8fafc; border-radius:10px; padding:15px; margin-bottom:20px; text-align:left;">
+      <h4 style="font-size:0.9rem; color:var(--navy); margin-bottom:10px;">Change Password</h4>
+      <input type="password" id="prof-old-pass" placeholder="Current Password" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:8px; font-size:0.85rem;">
+      <input type="password" id="prof-new-pass" placeholder="New Password" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:0.85rem;">
+      <button onclick="changePassword()" style="width:100%; padding:8px; background:var(--navy); color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Update Password</button>
+      <div id="prof-pass-msg" style="font-size:0.85rem; margin-top:8px; text-align:center; display:none; font-weight:bold;"></div>
+    </div>
+    
+    <button onclick="handleLogout()" class="btn" style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign Out of Portal</button>
+  </div>
+</div>
+
+<!-- ════ REPORT MODAL ════ -->
+<div class="modal-overlay" id="item-modal">
+  <div class="modal">
+    <a href="#page-browse" class="modal-close">×</a>
+    <div class="modal-img bg-g" id="modal-icon">🎧</div>
+    <h3 id="modal-name">Item Name</h3>
+    <div class="modal-row"><div class="ml">Category:</div><div class="mv" id="modal-cat">Electronics</div></div>
+    <div class="modal-row"><div class="ml">Found Date:</div><div class="mv" id="modal-date">Jan 5</div></div>
+    <div class="modal-row"><div class="ml">Details:</div><div class="mv" id="modal-desc">Description here.</div></div>
+    <div class="modal-loc">
+      <div class="modal-loc-txt" id="modal-loc-txt">📍 Library</div>
+      <div class="modal-loc-sub" id="modal-spot">Specific Spot: N/A</div>
+    </div>
+    
+    <div class="modal-actions" id="modal-actions-default">
+      <a href="#" class="btn btn-green" onclick="showClaimForm(); return false;">Request Claim</a>
+    </div>
+
+    <!-- The Claim Form -->
+    <div id="modal-claim-form" style="display:none; margin-top:20px; border-top:1px solid #e6ecf3; padding-top:20px;">
+      <h4 style="color:#c0151a; font-size:0.95rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">⚠️ University Anti-Theft Policy</h4>
+      <p style="font-size:0.82rem; color:#5a6b7e; margin-bottom:16px; line-height:1.5;">False claims are a serious offense. Your Student ID and IP address will be recorded. Theft attempts will be reported to Campus Administration.</p>
+      
+      <div class="fg" style="margin-bottom:12px;">
+        <label for="claim-studentid" style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Your Student ID / Roll No. *</label>
+        <input type="text" id="claim-studentid" placeholder="e.g. 211099..." style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+      </div>
+      <div class="fg" style="margin-bottom:16px;">
+        <label for="claim-proof" style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Proof of Ownership *</label>
+        <textarea id="claim-proof" placeholder="e.g. Lock screen wallpaper is my dog, or scratch on the left edge." style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; resize:none; font-family:inherit;" rows="2"></textarea>
+      </div>
+      
+      <div class="fg" style="margin-bottom:16px;">
+        <label for="claim-proof-img" style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Attach Photo Proof (Optional)</label>
+        <div class="upload-zone" style="border: 2px dashed #b3c0ce; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; position: relative; background:#f8fafc;">
+          <input type="file" id="claim-proof-img" accept="image/*" capture="environment" style="opacity: 0; position: absolute; inset: 0; width: 100%; cursor: pointer;">
+          <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+          <p id="claim-upload-text" style="font-size: 0.8rem; color: #5a6b7e; margin: 0;">Click to upload or take a photo</p>
+        </div>
+      </div>
+      
+      <button class="btn btn-green" style="width:100%; justify-content:center; padding:12px; font-size:0.95rem; border:none; cursor:pointer;" onclick="submitClaim()">Submit Verification</button>
+    </div>
+
+  </div>
+</div>
+
+</div> <!-- End app-content -->
 </body>
 </html>
