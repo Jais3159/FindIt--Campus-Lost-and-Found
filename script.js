@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkLoginState();
   setupForm();
   setupImageUpload();
+  setupContactForm();
 });
 
 
@@ -182,9 +183,13 @@ function openModal(id) {
 
   const defaultActions = document.getElementById('modal-actions-default');
   const claimForm = document.getElementById('modal-claim-form');
+  const pendingMsg = document.getElementById('modal-pending-msg');
+  const sidEl = document.getElementById('claim-studentid');
+  const proofEl = document.getElementById('claim-proof');
   
   if (defaultActions) defaultActions.style.display = 'flex';
   if (claimForm) claimForm.style.display = 'none';
+  if (pendingMsg) pendingMsg.style.display = 'none';
   
   if(sidEl) {
     if(currentUser) {
@@ -204,8 +209,9 @@ function openModal(id) {
   if(claimImgEl) claimImgEl.value = '';
   if(claimUploadTxtEl) claimUploadTxtEl.textContent = "Click to upload or take a photo";
 
-  if (item.status === 'pending' && defaultActions) {
-    defaultActions.style.display = 'none';
+  if (item.status === 'pending') {
+    if (defaultActions) defaultActions.style.display = 'none';
+    if (pendingMsg) pendingMsg.style.display = 'block';
   }
 
   const iconEl = document.getElementById('modal-icon');
@@ -359,12 +365,22 @@ function checkLoginState() {
   const appContent = document.getElementById('app-content');
   const navProfileBtn = document.getElementById('nav-profile-btn');
   const profileSidText = document.getElementById('profile-sid-text');
+  const adminBtn = document.getElementById('prof-admin-btn');
   
   if (currentUser) {
     if(loginPage) loginPage.style.display = 'none';
     if(appContent) appContent.style.display = 'block';
     if(navProfileBtn) navProfileBtn.innerHTML = `👤 ${currentUser}`;
     if(profileSidText) profileSidText.textContent = `Roll No: ${currentUser}`;
+    
+    // Only show Admin button for specific Roll No
+    if(adminBtn) {
+      if(currentUser === '2510993585') {
+        adminBtn.style.display = 'block';
+      } else {
+        adminBtn.style.display = 'none';
+      }
+    }
   } else {
     if(loginPage) loginPage.style.display = 'flex';
     if(appContent) appContent.style.display = 'none';
@@ -467,5 +483,55 @@ function handleForgotPassword() {
     // Reset the password back to the default presentation password
     localStorage.setItem('findit_password', 'CUPunjab');
     alert(`Password reset successfully for Student ID: ${sid}\n\nYour new temporary password has been set to: CUPunjab\n\nPlease log in and change this in your Profile Settings.`);
+  }
+}
+
+// --- CONTACT FORM & ADMIN INBOX ---
+function setupContactForm() {
+  const contactForm = document.getElementById('contact-form-ui');
+  if(!contactForm) return;
+  
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const subject = document.getElementById('c-subject').value;
+    const message = document.getElementById('c-msg').value.trim();
+    
+    if(!name || !email || !message) {
+      alert("Please fill in all required fields!");
+      return;
+    }
+    
+    const messages = JSON.parse(localStorage.getItem('findit_messages') || '[]');
+    messages.unshift({
+      id: Date.now(),
+      name, email, subject, message, date: new Date().toLocaleString()
+    });
+    localStorage.setItem('findit_messages', JSON.stringify(messages));
+    
+    alert("Message sent successfully! The admin will review it shortly.");
+    contactForm.reset();
+  });
+}
+
+function loadAdminInbox() {
+  const container = document.getElementById('admin-messages-container');
+  if(!container) return;
+  
+  const messages = JSON.parse(localStorage.getItem('findit_messages') || '[]');
+  
+  if(messages.length === 0) {
+    container.innerHTML = '<p style="color:#5a6b7e; text-align:center; padding:20px;">No messages yet.</p>';
+  } else {
+    container.innerHTML = messages.map(m => `
+      <div style="background:#f8fafc; padding:15px; border-radius:10px; margin-bottom:12px; border-left:4px solid var(--navy); position:relative;">
+        <div style="font-size:0.8rem; color:#5a6b7e; margin-bottom:4px;">${m.date}</div>
+        <div style="font-weight:bold; color:var(--navy); font-size:1rem; margin-bottom:4px;">${m.name} <span style="font-weight:normal; font-size:0.85rem;">(${m.email})</span></div>
+        <div style="font-size:0.85rem; font-weight:800; color:#cc2027; margin-bottom:8px; text-transform:uppercase;">Subject: ${m.subject}</div>
+        <div style="font-size:0.95rem; color:#334155; line-height:1.5; margin-bottom:12px;">${m.message}</div>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.email)}&su=${encodeURIComponent('Re: ' + m.subject)}&body=${encodeURIComponent('Hello ' + m.name + ',\n\nRegarding your message on FindIt:\n"' + m.message + '"\n\n')}" target="_blank" style="display:inline-block; padding:6px 12px; background:#ea4335; color:#fff; text-decoration:none; border-radius:5px; font-size:0.85rem; font-weight:bold;">✉️ Reply via Gmail</a>
+      </div>
+    `).join('');
   }
 }
