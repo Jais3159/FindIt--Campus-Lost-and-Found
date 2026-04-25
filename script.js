@@ -179,6 +179,8 @@ function openModal(id) {
   const item = items.find(i => i.id === id);
   if (!item) return;
 
+  logUserActivity("Viewed Item", `Looking at ${item.name} (${item.category})`);
+
   currentActiveItemId = id;
 
   const defaultActions = document.getElementById('modal-actions-default');
@@ -284,6 +286,8 @@ function setupForm() {
     items.unshift(newItem);
     localStorage.setItem('findit_items', JSON.stringify(items));
     
+    logUserActivity("Reported Item", `Found ${name} at ${location}.`);
+    
     renderItems();
     
     alert("Item reported successfully! It has been added to the Browse Items page.");
@@ -350,6 +354,8 @@ function submitClaim() {
     items[itemIndex].claimerName = name;
     localStorage.setItem('findit_items', JSON.stringify(items));
     
+    logUserActivity("Requested Claim", `Claimed ${items[itemIndex].name}. ID: ${sid}, Name: ${name}`);
+    
     alert(`Claim requested successfully!\nName: ${name}\nStudent ID: ${sid}\nThe finder has been notified and will contact you to verify your proof of ownership.`);
     
     window.location.hash = '#page-browse';
@@ -365,6 +371,7 @@ function checkLoginState() {
   const mobProfileBtn = document.getElementById('mob-profile-btn');
   const profileSidText = document.getElementById('profile-sid-text');
   const adminBtn = document.getElementById('prof-admin-btn');
+  const adminAnalyticsBtn = document.getElementById('prof-admin-analytics-btn');
   
   if (currentUser) {
     if(loginPage) loginPage.style.display = 'none';
@@ -373,12 +380,14 @@ function checkLoginState() {
     if(mobProfileBtn) mobProfileBtn.innerHTML = `👤 ${currentUser}`;
     if(profileSidText) profileSidText.textContent = `Roll No: ${currentUser}`;
     
-    // Only show Admin button for specific Roll No
+    // Only show Admin buttons for specific Roll No
     if(adminBtn) {
       if(currentUser === '2510993585') {
         adminBtn.style.display = 'block';
+        if(adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'block';
       } else {
         adminBtn.style.display = 'none';
+        if(adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
       }
     }
   } else {
@@ -431,6 +440,9 @@ function handleMainLogin() {
   document.getElementById('main-login-sid').value = '';
   document.getElementById('main-login-pass').value = '';
   
+  logUserActivity("Logged In", "Student signed into the portal.");
+  
+  window.location.hash = '#page-home';
   checkLoginState();
 }
 
@@ -508,6 +520,8 @@ function setupContactForm() {
     });
     localStorage.setItem('findit_messages', JSON.stringify(messages));
     
+    logUserActivity("Sent Message", `Subject: ${subject}`);
+    
     alert("Message sent successfully! The admin will review it shortly.");
     contactForm.reset();
   });
@@ -546,3 +560,87 @@ function deleteAdminMessage(id) {
   localStorage.setItem('findit_messages', JSON.stringify(messages));
   loadAdminInbox();
 }
+
+function logUserActivity(action, details) {
+  if(!currentUser) return; // Only log logged in users
+  let analytics = JSON.parse(localStorage.getItem('findit_analytics') || '[]');
+  analytics.unshift({
+    sid: currentUser,
+    action: action,
+    details: details,
+    date: new Date().toLocaleString()
+  });
+  if(analytics.length > 200) analytics.length = 200; // keep last 200
+  localStorage.setItem('findit_analytics', JSON.stringify(analytics));
+}
+
+function loadAdminAnalytics() {
+  const container = document.getElementById('admin-analytics-container');
+  if(!container) return;
+  
+  const analytics = JSON.parse(localStorage.getItem('findit_analytics') || '[]');
+  
+  if(analytics.length === 0) {
+    container.innerHTML = '<p style="color:#5a6b7e; text-align:center; padding:20px;">No user activity recorded yet.</p>';
+  } else {
+    // Calculate Stats per User
+    const userStats = {};
+    analytics.forEach(a => {
+      if(!userStats[a.sid]) userStats[a.sid] = { total: 0, actions: {} };
+      userStats[a.sid].total++;
+      userStats[a.sid].actions[a.action] = (userStats[a.sid].actions[a.action] || 0) + 1;
+    });
+
+    let summaryHTML = `<div style="background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:20px;">
+      <h4 style="font-size:0.9rem; margin-bottom:10px; color:var(--navy);">User Summary (Activity Count)</h4>
+      <table style="width:100%; font-size:0.8rem; border-collapse:collapse;">
+        <thead><tr style="text-align:left; border-bottom:1px solid #eee;"><th style="padding:4px;">Roll No</th><th style="padding:4px;">Total Actions</th></tr></thead>
+        <tbody>`;
+    
+    for(const sid in userStats) {
+      summaryHTML += `<tr style="border-bottom:1px solid #f8fafc;"><td style="padding:6px; font-weight:bold;">${sid}</td><td style="padding:6px;">${userStats[sid].total} clicks</td></tr>`;
+    }
+    summaryHTML += `</tbody></table></div><h4 style="font-size:0.9rem; margin-bottom:12px; color:var(--navy);">Detailed Activity Log</h4>`;
+
+    container.innerHTML = summaryHTML + analytics.map(a => `
+      <div style="background:#f8fafc; padding:10px; border-radius:8px; margin-bottom:8px; border-left:3px solid var(--blue);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--navy); font-size:0.9rem;">Roll No: ${a.sid}</strong>
+          <span style="font-size:0.75rem; color:#5a6b7e;">${a.date}</span>
+        </div>
+        <div style="font-size:0.85rem; color:#334155;">
+          <span style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block; margin-right:5px;">${a.action}</span> 
+          ${a.details}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function clearAnalytics() {
+  if(confirm("Are you sure you want to clear all analytics data?")) {
+    localStorage.removeItem('findit_analytics');
+    loadAdminAnalytics();
+  }
+}
+
+// Hook up Category Filtering Logging
+document.addEventListener("DOMContentLoaded", () => {
+  const radios = document.querySelectorAll('input[name="cat"]');
+  radios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if(e.target.checked) {
+        logUserActivity("Filtered Category", `Selected the ${e.target.id.replace('t-','')} category tab.`);
+      }
+    });
+  });
+
+  // Log Navigation (Page changes)
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#page-')) {
+      const pageName = hash.replace('#page-', '').charAt(0).toUpperCase() + hash.replace('#page-', '').slice(1);
+      logUserActivity("Navigated To", `Opened the ${pageName} page.`);
+    }
+  });
+});
