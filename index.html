@@ -91,7 +91,18 @@
             style="background:transparent; color:var(--green); border:1px solid var(--green);">👤 Profile</a>
         </li>
       </ul>
+      <label for="nav-toggle" class="hamburger-lbl">
+        <span></span><span></span><span></span>
+      </label>
     </nav>
+    <div class="mobile-drawer">
+      <a href="#page-how" onclick="document.getElementById('nav-toggle').checked = false;">How It Works</a>
+      <a href="#page-browse" onclick="document.getElementById('nav-toggle').checked = false;">Browse Items</a>
+      <a href="#page-about" onclick="document.getElementById('nav-toggle').checked = false;">About</a>
+      <a href="#page-contact" onclick="document.getElementById('nav-toggle').checked = false;">Contact</a>
+      <a href="#page-report" onclick="document.getElementById('nav-toggle').checked = false;">📷 Report Found</a>
+      <a href="#modal-profile" id="mob-profile-btn" onclick="document.getElementById('nav-toggle').checked = false;">👤 Profile</a>
+    </div>
 
     <!-- ════ LIVE RADAR TICKER ════ -->
     <div class="live-ticker"
