@@ -192,20 +192,16 @@ function openModal(id) {
   if (pendingMsg) pendingMsg.style.display = 'none';
   
   if(sidEl) {
-    if(currentUser) {
-      sidEl.value = currentUser;
-      sidEl.disabled = true; // prevent editing if logged in
-      sidEl.style.backgroundColor = '#f1f5f9';
-    } else {
-      sidEl.value = '';
-      sidEl.disabled = false;
-      sidEl.style.backgroundColor = '#fff';
-    }
+    sidEl.value = '';
+    sidEl.disabled = false;
+    sidEl.style.backgroundColor = '#fff';
   }
   if(proofEl) proofEl.value = '';
 
   const claimImgEl = document.getElementById('claim-proof-img');
   const claimUploadTxtEl = document.getElementById('claim-upload-text');
+  const claimNameEl = document.getElementById('claim-name');
+  if(claimNameEl) claimNameEl.value = '';
   if(claimImgEl) claimImgEl.value = '';
   if(claimUploadTxtEl) claimUploadTxtEl.textContent = "Click to upload or take a photo";
 
@@ -338,11 +334,12 @@ function showClaimForm() {
 }
 
 function submitClaim() {
+  const name = document.getElementById('claim-name').value.trim();
   const sid = document.getElementById('claim-studentid').value.trim();
   const proof = document.getElementById('claim-proof').value.trim();
   
-  if (!sid || !proof) {
-    alert("Please provide your Student ID and Proof of Ownership.");
+  if (!name || !sid || !proof) {
+    alert("Please provide your Full Name, Student ID, and Proof of Ownership.");
     return;
   }
   
