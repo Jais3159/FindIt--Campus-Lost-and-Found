@@ -71,9 +71,9 @@ const iconMap = {
 };
 
 const catMap = {
-  'Electronics': 'electronics', 'Clothing': 'clothing', 'Stationery / Books': 'stationery',
-  'ID / Cards / Documents': 'id', 'Keys': 'keys', 'Bags / Accessories': 'accessories',
-  'Jewellery / Watches': 'accessories', 'Food / Water Bottles': 'accessories', 'Other': 'accessories'
+  'Electronics': 'electronics', 'Clothing': 'clothing', 'Stationery': 'stationery', 'Stationery / Books': 'stationery',
+  'ID': 'id', 'ID / Cards': 'id', 'ID / Cards / Documents': 'id', 'Keys': 'keys', 'Bags': 'accessories', 'Accessories': 'accessories', 'Bags / Accessories': 'accessories',
+  'Jewellery': 'accessories', 'Jewellery / Watches': 'accessories', 'Food': 'accessories', 'Food / Water Bottles': 'accessories', 'Other': 'accessories'
 };
 
 let items = JSON.parse(localStorage.getItem('findit_items')) || initialItems;
@@ -87,6 +87,7 @@ const adminList = ['2510993585'];
 document.addEventListener('DOMContentLoaded', () => {
   renderItems();
   checkLoginState();
+  updateTicker(); // Activate the scrolling radar
   setupForm();
   setupImageUpload();
   setupContactForm();
@@ -154,37 +155,24 @@ function renderItems() {
     `;
     container.appendChild(card);
   });
-
-  updateTicker();
 }
 
 function updateTicker() {
   const tickerContainer = document.getElementById('ticker-content');
   if (!tickerContainer) return;
 
-  let tickerHTML = '';
-  // Pick the most recent 6 items for the ticker
-  const recentItems = items.slice(0, 6);
+  const foundItems = items.filter(i => i.status === 'found').slice(0, 8);
+  if (foundItems.length === 0) {
+    tickerContainer.innerHTML = '<span class="t-item" style="margin-right:40px;">📡 No new items found recently...</span>';
+    return;
+  }
 
-  recentItems.forEach((item, index) => {
-    let timeAgo = index === 0 ? "Just now" : `${index * 3} mins ago`;
-    if (index > 3) timeAgo = "1 hour ago";
-
-    let badgeClass = 'tb-found';
-    let badgeTxt = 'FOUND';
-
-    if (item.status === 'pending') {
-      badgeClass = 'tb-claim';
-      badgeTxt = 'CLAIM PENDING';
-    } else if (item.status === 'claimed') {
-      badgeClass = 'tb-res';
-      badgeTxt = 'RESOLVED';
-    }
-
-    tickerHTML += `<span class="t-item"><span class="t-badge ${badgeClass}">${badgeTxt}</span> <span style="color:#94a3b8; margin-right:4px;">${timeAgo}:</span> ${item.name} at ${item.location}</span>`;
-  });
-
-  tickerContainer.innerHTML = tickerHTML;
+  tickerContainer.innerHTML = foundItems.map(item => `
+    <span class="t-item" style="margin-right: 40px;">
+      <span style="background:var(--green); color:#fff; padding:2px 8px; border-radius:4px; font-size:0.7rem; margin-right:8px;">FOUND</span> 
+      Just now: <strong>${item.name}</strong> at ${item.location}
+    </span>
+  `).join('');
 }
 
 function openModal(id) {
@@ -275,8 +263,14 @@ function setupForm() {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const formattedDate = `${months[dateObj.getMonth()]} ${dateObj.getDate()}`;
 
-    const catStr = catSelect.replace(/^[^a-zA-Z]+/, '').trim();
-    const mappedCat = catMap[catStr] || 'accessories';
+    const catStr = catSelect.replace(/[^\w\s/]/g, '').trim(); // Remove emojis more safely
+    let mappedCat = 'accessories';
+    for (const key in catMap) {
+      if (catStr.includes(key)) {
+        mappedCat = catMap[key];
+        break;
+      }
+    }
     const icon = iconMap[catStr] || '🧩';
 
     const colors = ['bg-g', 'bg-y', 'bg-b', 'bg-o', 'bg-p'];
@@ -300,6 +294,7 @@ function setupForm() {
     localStorage.setItem('findit_items', JSON.stringify(items));
 
     renderItems();
+    updateTicker(); // Show it in the scrolling radar immediately
 
     alert("Item reported successfully! It has been added to the Browse Items page.");
     form.reset();
@@ -424,6 +419,7 @@ function checkLoginState() {
     if (loginPage) loginPage.style.display = 'flex';
     if (appContent) appContent.style.display = 'none';
   }
+  loadUserNotifications(); // Always check for notifications on load
 }
 
 function handleLogout() {
