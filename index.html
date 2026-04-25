@@ -106,7 +106,7 @@
 
     <!-- ════ LIVE RADAR TICKER ════ -->
     <div class="live-ticker"
-      style="background:#0f172a; color:#fff; padding:8px 0; font-size:0.85rem; font-weight:600; overflow:hidden; white-space:nowrap; border-bottom:3px solid #cc2027;">
+      style="margin-top: 66px; background:#0f172a; color:#fff; padding:8px 0; font-size:0.85rem; font-weight:600; overflow:hidden; white-space:nowrap; border-bottom:3px solid #cc2027;">
       <div id="ticker-content"
         style="display:inline-block; animation: tickerAnim 25s linear infinite; padding-left:100%;">
         <!-- Dynamically injected by JS -->
@@ -930,15 +930,33 @@
             style="font-size:0.85rem; margin-top:8px; text-align:center; display:none; font-weight:bold;"></div>
         </div>
 
+        <a href="#modal-user-notifications" onclick="markNotifsRead()"
+          style="display:block; width:100%; text-align:center; padding:10px; background:#fff; color:var(--navy); border:2px solid var(--g2); font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none; position:relative;">🔔
+          My Notifications <span id="notif-badge" style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:-5px; right:-5px; border:2px solid #fff;">0</span></a>
+
         <a href="#modal-admin-inbox" id="prof-admin-btn" onclick="loadAdminInbox()"
           style="display:none; width:100%; text-align:center; padding:10px; background:#f59e0b; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📥
           Admin: View Messages</a>
         <a href="#modal-admin-analytics" id="prof-admin-analytics-btn" onclick="loadAdminAnalytics()"
           style="display:none; width:100%; text-align:center; padding:10px; background:#2563eb; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📊
           Admin: User Analytics</a>
+        <a href="#modal-admin-claims" id="prof-admin-claims-btn" onclick="loadAdminClaims()"
+          style="display:none; width:100%; text-align:center; padding:10px; background:#4f46e5; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📋
+          Admin: Master Claims View</a>
         <button onclick="handleLogout()" class="btn"
           style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign
           Out of Portal</button>
+      </div>
+    </div>
+
+    <!-- ════ USER NOTIFICATIONS MODAL ════ -->
+    <div class="modal-overlay" id="modal-user-notifications">
+      <div class="modal" style="max-width:400px; text-align:left; max-height:70vh; overflow-y:auto;">
+        <a href="#modal-profile" class="modal-close">×</a>
+        <h3 style="color:var(--navy); font-size:1.3rem; margin-bottom:15px;">🔔 Notifications</h3>
+        <div id="user-notifications-container">
+          <!-- User notifications injected here -->
+        </div>
       </div>
     </div>
 
@@ -962,6 +980,18 @@
         <button onclick="clearAnalytics()" style="width:100%; padding:8px; background:#e2e8f0; color:#334155; border:none; border-radius:5px; font-size:0.85rem; font-weight:bold; cursor:pointer; margin-bottom:15px;">🗑️ Clear Logs</button>
         <div id="admin-analytics-container">
           <!-- Analytics injected here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ADMIN CLAIMS MASTER MODAL ════ -->
+    <div class="modal-overlay" id="modal-admin-claims">
+      <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+        <a href="#" class="modal-close">×</a>
+        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📋 Master Claims List</h3>
+        <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Monitoring student-to-student claim handoffs.</p>
+        <div id="admin-claims-container">
+          <!-- Claims injected here -->
         </div>
       </div>
     </div>
