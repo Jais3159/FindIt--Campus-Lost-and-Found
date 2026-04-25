@@ -68,8 +68,8 @@
     /* ═══ HERO ═══ */
     #home { 
       min-height: 100vh; 
-      background: url('https://live.staticflickr.com/65535/51706490974_aa0bff6ea5_b.jpg') center center / cover no-repeat; display: flex; align-items: center; justify-content: flex-end; padding: 110px 5% 60px; position: relative; overflow: hidden; }
-    #home::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 0; }
+      background: url('https://www.chitkara.edu.in/wp-content/themes/chitkara/images/landing-pages/glorious-future/chitkara-maingate.jpg') center center / cover no-repeat; display: flex; align-items: center; justify-content: flex-end; padding: 110px 5% 60px; position: relative; overflow: hidden; }
+    #home::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.55); z-index: 0; }
 
     .blob { display: none; }
     .b1 { width: 440px; height: 440px; background: #ff8080; top: -110px; right: -80px; animation-delay: 0s; }
@@ -143,7 +143,8 @@
     #t-stat:checked  ~ .tab-bar label[for="t-stat"],
     #t-id:checked    ~ .tab-bar label[for="t-id"],
     #t-keys:checked  ~ .tab-bar label[for="t-keys"],
-    #t-acc:checked   ~ .tab-bar label[for="t-acc"]
+    #t-acc:checked   ~ .tab-bar label[for="t-acc"],
+    #t-claimed:checked ~ .tab-bar label[for="t-claimed"]
     { background: #c0151a; color: #fff; border-color: #c0151a; }
 
     #t-elec:checked  ~ .items-grid .item-card:not([data-cat="electronics"]) { display: none; }
@@ -152,6 +153,25 @@
     #t-id:checked    ~ .items-grid .item-card:not([data-cat="id"])          { display: none; }
     #t-keys:checked  ~ .items-grid .item-card:not([data-cat="keys"])        { display: none; }
     #t-acc:checked   ~ .items-grid .item-card:not([data-cat="accessories"]) { display: none; }
+    
+    /* Only show claimed/pending items in the claimed tab */
+    #t-claimed:checked ~ .items-grid .item-card:not([data-status="claimed"]):not([data-status="pending"]) { display: none; }
+
+    /* Hide claimed/pending items from all the normal tabs */
+    #t-all:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-all:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-elec:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-elec:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-cloth:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-cloth:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-stat:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-stat:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-id:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-id:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-keys:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-keys:checked ~ .items-grid .item-card[data-status="pending"],
+    #t-acc:checked ~ .items-grid .item-card[data-status="claimed"],
+    #t-acc:checked ~ .items-grid .item-card[data-status="pending"] { display: none; }
 
     .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
     .item-card { background: #fff; border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--g2); box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s, border-color .25s; text-decoration: none; color: inherit; display: block; }
@@ -179,7 +199,7 @@
     /* ═══ ITEM MODALS — :target ═══ */
     .modal-overlay { position: fixed; inset: 0; background: rgba(26,43,74,.55); backdrop-filter: blur(7px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay:target { display: flex; }
-    .modal { background: #fff; border-radius: 24px; padding: 36px; max-width: 470px; width: 100%; box-shadow: var(--shadow-lg); animation: modalPop .3s cubic-bezier(.34,1.56,.64,1) both; position: relative; }
+    .modal { background: #fff; border-radius: 24px; padding: 36px; max-width: 470px; width: 100%; box-shadow: var(--shadow-lg); animation: modalPop .3s cubic-bezier(.34,1.56,.64,1) both; position: relative; max-height: 90vh; overflow-y: auto; }
     @keyframes modalPop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .modal-close { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%; background: var(--g1); display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1rem; color: var(--g3); font-weight: 800; transition: background .2s; line-height: 1; }
     .modal-close:hover { background: #fde8d4; color: var(--orange); }
@@ -417,3 +437,17 @@ body:has(#page-about:target) #page-home,
 body:has(#page-contact:target) #page-home { display: none; }
 
 #page-home:target { display: block; }
+
+/* ════ LIVE TICKER ANIMATIONS ════ */
+@keyframes tickerAnim {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+.live-ticker:hover #ticker-content {
+  animation-play-state: paused;
+}
+.t-item { margin-right: 50px; font-family: 'Nunito', sans-serif; }
+.t-badge { padding:3px 8px; border-radius:4px; margin-right:8px; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+.tb-found { background:#22c55e; color:#fff; }
+.tb-claim { background:#f59e0b; color:#fff; }
+.tb-res { background:#3b82f6; color:#fff; }
