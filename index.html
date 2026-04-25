@@ -933,6 +933,9 @@
         <a href="#modal-admin-inbox" id="prof-admin-btn" onclick="loadAdminInbox()"
           style="display:none; width:100%; text-align:center; padding:10px; background:#f59e0b; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📥
           Admin: View Messages</a>
+        <a href="#modal-admin-analytics" id="prof-admin-analytics-btn" onclick="loadAdminAnalytics()"
+          style="display:none; width:100%; text-align:center; padding:10px; background:#2563eb; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📊
+          Admin: User Analytics</a>
         <button onclick="handleLogout()" class="btn"
           style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign
           Out of Portal</button>
@@ -946,6 +949,19 @@
         <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📥 Admin Inbox</h3>
         <div id="admin-messages-container">
           <!-- Messages injected here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ADMIN ANALYTICS MODAL ════ -->
+    <div class="modal-overlay" id="modal-admin-analytics">
+      <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+        <a href="#" class="modal-close">×</a>
+        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📊 User Analytics</h3>
+        <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Live monitoring of student activity on the platform.</p>
+        <button onclick="clearAnalytics()" style="width:100%; padding:8px; background:#e2e8f0; color:#334155; border:none; border-radius:5px; font-size:0.85rem; font-weight:bold; cursor:pointer; margin-bottom:15px;">🗑️ Clear Logs</button>
+        <div id="admin-analytics-container">
+          <!-- Analytics injected here -->
         </div>
       </div>
     </div>
