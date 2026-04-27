@@ -83,12 +83,13 @@
       <ul class="nav-links">
         <li><a href="#page-how">How It Works</a></li>
         <li><a href="#page-browse">Browse Items</a></li>
+        <li><a href="#page-community">Community</a></li>
         <li><a href="#page-about">About</a></li>
         <li><a href="#page-contact">Contact</a></li>
         <li style="display:flex; gap:12px; align-items:center;">
           <a href="#page-report" class="nav-cta">📷 Report Found</a>
           <a href="#modal-profile" id="nav-profile-btn" class="nav-cta"
-            style="background:transparent; color:var(--green); border:1px solid var(--green);">👤 Profile</a>
+            style="background:transparent; color:var(--green); border:1px solid var(--green); position:relative;">👤 Profile<span id="nav-chat-badge" style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:-8px; right:-8px; border:2px solid #fff;">0</span></a>
         </li>
       </ul>
       <label for="nav-toggle" class="hamburger-lbl">
@@ -98,10 +99,12 @@
     <div class="mobile-drawer">
       <a href="#page-how" onclick="document.getElementById('nav-toggle').checked = false;">How It Works</a>
       <a href="#page-browse" onclick="document.getElementById('nav-toggle').checked = false;">Browse Items</a>
+      <a href="#page-community" onclick="document.getElementById('nav-toggle').checked = false;">Community</a>
       <a href="#page-about" onclick="document.getElementById('nav-toggle').checked = false;">About</a>
       <a href="#page-contact" onclick="document.getElementById('nav-toggle').checked = false;">Contact</a>
       <a href="#page-report" onclick="document.getElementById('nav-toggle').checked = false;">📷 Report Found</a>
-      <a href="#modal-profile" id="mob-profile-btn" onclick="document.getElementById('nav-toggle').checked = false;">👤 Profile</a>
+      <a href="#modal-profile" id="mob-profile-btn" onclick="document.getElementById('nav-toggle').checked = false;" style="position:relative;">👤
+        Profile<span id="mob-chat-badge" style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:5px; right:10px; border:2px solid #fff;">0</span></a>
     </div>
 
     <!-- ════ LIVE RADAR TICKER ════ -->
@@ -339,750 +342,866 @@
       </section>
 
     </div>
+  </div>
 
+  <div class="page" id="page-community">
+    <!-- ════ COMMUNITY FEED ════ -->
+    <section id="community">
+      <span class="tag">Community</span>
+      <h2 class="sec-title">Campus Discussions & Alerts</h2>
+      <p class="sec-sub">Post general alerts, lost item requests, or have discussions with the community.</p>
 
-    <div class="page" id="page-report">
-      <!-- ════ REPORT FORM ════ -->
-      <section id="report">
-        <span class="tag">Found Something?</span>
-        <h2 class="sec-title">Report a Found Item</h2>
-        <p class="sec-sub">Help someone get their stuff back. Fill in the details and we'll list it on FindIt for the
-          campus to see.</p>
+      <div style="margin-bottom: 24px;">
+        <button class="btn btn-green" onclick="window.location.hash='#modal-create-post'"
+          style="padding: 10px 20px; font-size: 0.95rem;">+ Create New Post</button>
+      </div>
 
-        <div class="report-grid">
-          <div class="form-card">
-            <h3>📋 Item Details</h3>
-            <form id="report-form" action="#" method="post" novalidate aria-label="Report a found item">
-              <div class="fg"><label for="item-name">Item Name *</label><input type="text" id="item-name"
-                  name="item_name" placeholder="e.g. Black Sony Headphones" required aria-required="true" /></div>
-              <div class="fg-row">
-                <div class="fg"><label for="item-cat">Category *</label>
-                  <select id="item-cat" name="category" required aria-required="true">
-                    <option value="">Select category…</option>
-                    <option>📱 Electronics</option>
-                    <option>👕 Clothing</option>
-                    <option>📚 Stationery / Books</option>
-                    <option>🪪 ID / Cards / Documents</option>
-                    <option>🔑 Keys</option>
-                    <option>🎒 Bags / Accessories</option>
-                    <option>💍 Jewellery / Watches</option>
-                    <option>🍱 Food / Water Bottles</option>
-                    <option>🧩 Other</option>
-                  </select>
-                </div>
-                <div class="fg"><label for="item-date">Date Found *</label><input type="date" id="item-date"
-                    name="date_found" required aria-required="true" /></div>
-              </div>
-              <div class="fg"><label for="item-desc">Description *</label><textarea id="item-desc" name="description"
-                  rows="3" placeholder="Color, brand, distinguishing features, condition…" required
-                  aria-required="true"></textarea></div>
-              <div class="fg">
-                <label for="item-photos">📷 Upload Photos *</label>
-                <div class="upload-zone">
-                  <input type="file" id="item-photos" name="photos" accept="image/*" capture="environment" multiple
-                    aria-label="Upload photos of the found item" />
-                  <div class="upload-icon-big">📸</div>
-                  <p>Click or drag &amp; drop photos here</p>
-                  <span>JPG, PNG, WEBP — up to 5 images</span>
-                </div>
-              </div>
+      <div id="community-posts-container" style="display:flex; flex-direction:column; gap:16px;">
+        <!-- Community posts will be rendered here -->
+      </div>
+    </section>
+  </div>
 
-              <!-- Campus Map with CSS-only pin -->
-              <div class="fg">
-                <label>📍 Pin Pickup Location on Campus Map *</label>
-                <p style="font-size:.82rem;color:var(--g3);margin-bottom:6px;">Click a building on the map to drop a
-                  pin. Scroll to explore the full campus.</p>
+  <div class="page" id="page-report">
+    <!-- ════ REPORT FORM ════ -->
+    <section id="report">
+      <span class="tag">Found Something?</span>
+      <h2 class="sec-title">Report a Found Item</h2>
+      <p class="sec-sub">Help someone get their stuff back. Fill in the details and we'll list it on FindIt for the
+        campus to see.</p>
 
-                <!-- 30 radio inputs -->
-                <input type="radio" name="campus-pin" id="pr-gate" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-fleming" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-martin" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-rock" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-picasso" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-explor" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-sport" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-sq1" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-sq2" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-turing" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-studio" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-demorgan" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-library" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-darwin" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-tesla" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-exphub" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-dice" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-hotel" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-boys" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-girls" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-alpha" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-beta" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-basket" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-volley" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-pickle" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-football" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-parking" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-dohful" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-gali" class="pr" />
-                <input type="radio" name="campus-pin" id="pr-corbu" class="pr" />
-
-                <div class="map-box">
-                  <div class="map-inner">
-                    <div class="map-grid-lines"></div>
-
-                    <!-- ROW 1 — Top strip (entrance area) -->
-                    <div class="map-bld" style="left:2%;top:2%;width:8%;height:8%;">🚪<br />Main Gate</div>
-                    <div class="map-bld" style="left:12%;top:2%;width:10%;height:10%;">🅿️<br />Parking</div>
-                    <div class="map-bld" style="left:24%;top:2%;width:10%;height:10%;">🏠<br />Boys Hostel</div>
-                    <div class="map-bld" style="left:36%;top:2%;width:10%;height:10%;">🏠<br />Girls Hostel</div>
-                    <div class="map-bld" style="left:48%;top:2%;width:10%;height:10%;">☕<br />Dohful</div>
-                    <div class="map-bld" style="left:60%;top:2%;width:11%;height:10%;">🏟<br />Sportorium</div>
-                    <div class="map-bld" style="left:73%;top:2%;width:11%;height:10%;">🏀<br />Basketball</div>
-                    <div class="map-bld" style="left:86%;top:2%;width:12%;height:10%;">🏐<br />Volleyball</div>
-
-                    <!-- ROW 2 -->
-                    <div class="map-bld" style="left:2%;top:16%;width:13%;height:11%;">🔬<br />Fleming Block</div>
-                    <div class="map-bld" style="left:17%;top:16%;width:13%;height:11%;">✝️<br />Martin Luther</div>
-                    <div class="map-bld" style="left:32%;top:16%;width:13%;height:11%;">🏛<br />Rockefeller</div>
-                    <div class="map-bld" style="left:47%;top:16%;width:12%;height:11%;">🎨<br />Picasso Block</div>
-                    <div class="map-bld" style="left:61%;top:16%;width:12%;height:11%;">🔭<br />Exploratorium</div>
-                    <div class="map-bld" style="left:75%;top:16%;width:11%;height:11%;">🏸<br />Pickleball</div>
-                    <div class="map-bld" style="left:88%;top:16%;width:10%;height:11%;">⚽<br />Football</div>
-
-                    <!-- ROW 3 — Middle zone -->
-                    <div class="map-bld" style="left:2%;top:31%;width:12%;height:11%;">📚<br />Library</div>
-                    <div class="map-bld" style="left:16%;top:31%;width:13%;height:11%;">🧬<br />Darwin Block</div>
-                    <div class="map-bld" style="left:31%;top:31%;width:12%;height:11%;">⚡<br />Tesla Block</div>
-                    <div class="map-bld" style="left:45%;top:31%;width:12%;height:11%;">🔍<br />Explore Hub</div>
-                    <div class="map-bld" style="left:59%;top:31%;width:10%;height:11%;">🎲<br />Dice Lab</div>
-                    <div class="map-bld" style="left:71%;top:31%;width:13%;height:11%;">🍴<br />Hotel Mgmt</div>
-                    <div class="map-bld" style="left:86%;top:31%;width:12%;height:11%;">🎓<br />Gallelio</div>
-
-                    <!-- ROW 4 — Lower zone -->
-                    <div class="map-bld" style="left:2%;top:46%;width:12%;height:11%;">💻<br />Turing Block</div>
-                    <div class="map-bld" style="left:16%;top:46%;width:12%;height:11%;">🎬<br />Studio</div>
-                    <div class="map-bld" style="left:30%;top:46%;width:13%;height:11%;">📐<br />DeMorgan</div>
-                    <div class="map-bld" style="left:45%;top:46%;width:13%;height:11%;">🏗<br />Le Corbusier</div>
-                    <div class="map-bld" style="left:60%;top:46%;width:10%;height:11%;">🅰<br />Alpha Zone</div>
-                    <div class="map-bld" style="left:72%;top:46%;width:10%;height:11%;">🅱<br />Beta Zone</div>
-                    <div class="map-bld" style="left:84%;top:46%;width:14%;height:11%;">🏢<br />Square One</div>
-
-                    <!-- ROW 5 — Bottom -->
-                    <div class="map-bld" style="left:2%;top:62%;width:14%;height:11%;">🏢<br />Square Two</div>
-
-                    <!-- Clickable overlays (same positions as buildings) -->
-                    <label for="pr-gate" class="bld-lbl" style="left:2%;top:2%;width:8%;height:8%;"></label>
-                    <label for="pr-parking" class="bld-lbl" style="left:12%;top:2%;width:10%;height:10%;"></label>
-                    <label for="pr-boys" class="bld-lbl" style="left:24%;top:2%;width:10%;height:10%;"></label>
-                    <label for="pr-girls" class="bld-lbl" style="left:36%;top:2%;width:10%;height:10%;"></label>
-                    <label for="pr-dohful" class="bld-lbl" style="left:48%;top:2%;width:10%;height:10%;"></label>
-                    <label for="pr-sport" class="bld-lbl" style="left:60%;top:2%;width:11%;height:10%;"></label>
-                    <label for="pr-basket" class="bld-lbl" style="left:73%;top:2%;width:11%;height:10%;"></label>
-                    <label for="pr-volley" class="bld-lbl" style="left:86%;top:2%;width:12%;height:10%;"></label>
-                    <label for="pr-fleming" class="bld-lbl" style="left:2%;top:16%;width:13%;height:11%;"></label>
-                    <label for="pr-martin" class="bld-lbl" style="left:17%;top:16%;width:13%;height:11%;"></label>
-                    <label for="pr-rock" class="bld-lbl" style="left:32%;top:16%;width:13%;height:11%;"></label>
-                    <label for="pr-picasso" class="bld-lbl" style="left:47%;top:16%;width:12%;height:11%;"></label>
-                    <label for="pr-explor" class="bld-lbl" style="left:61%;top:16%;width:12%;height:11%;"></label>
-                    <label for="pr-pickle" class="bld-lbl" style="left:75%;top:16%;width:11%;height:11%;"></label>
-                    <label for="pr-football" class="bld-lbl" style="left:88%;top:16%;width:10%;height:11%;"></label>
-                    <label for="pr-library" class="bld-lbl" style="left:2%;top:31%;width:12%;height:11%;"></label>
-                    <label for="pr-darwin" class="bld-lbl" style="left:16%;top:31%;width:13%;height:11%;"></label>
-                    <label for="pr-tesla" class="bld-lbl" style="left:31%;top:31%;width:12%;height:11%;"></label>
-                    <label for="pr-exphub" class="bld-lbl" style="left:45%;top:31%;width:12%;height:11%;"></label>
-                    <label for="pr-dice" class="bld-lbl" style="left:59%;top:31%;width:10%;height:11%;"></label>
-                    <label for="pr-hotel" class="bld-lbl" style="left:71%;top:31%;width:13%;height:11%;"></label>
-                    <label for="pr-gali" class="bld-lbl" style="left:86%;top:31%;width:12%;height:11%;"></label>
-                    <label for="pr-turing" class="bld-lbl" style="left:2%;top:46%;width:12%;height:11%;"></label>
-                    <label for="pr-studio" class="bld-lbl" style="left:16%;top:46%;width:12%;height:11%;"></label>
-                    <label for="pr-demorgan" class="bld-lbl" style="left:30%;top:46%;width:13%;height:11%;"></label>
-                    <label for="pr-corbu" class="bld-lbl" style="left:45%;top:46%;width:13%;height:11%;"></label>
-                    <label for="pr-alpha" class="bld-lbl" style="left:60%;top:46%;width:10%;height:11%;"></label>
-                    <label for="pr-beta" class="bld-lbl" style="left:72%;top:46%;width:10%;height:11%;"></label>
-                    <label for="pr-sq1" class="bld-lbl" style="left:84%;top:46%;width:14%;height:11%;"></label>
-                    <label for="pr-sq2" class="bld-lbl" style="left:2%;top:62%;width:14%;height:11%;"></label>
-
-                    <!-- Pin markers (offset above each building) -->
-                    <div class="pin-mk pin-gate" style="left:6%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-parking" style="left:17%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-boys" style="left:29%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-girls" style="left:41%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-dohful" style="left:53%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-sport" style="left:65%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-basket" style="left:78%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-volley" style="left:92%;top:-2%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-fleming" style="left:8%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-martin" style="left:23%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-rock" style="left:38%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-picasso" style="left:53%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-explor" style="left:67%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-pickle" style="left:80%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-football" style="left:93%;top:10%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-library" style="left:8%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-darwin" style="left:22%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-tesla" style="left:37%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-exphub" style="left:51%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-dice" style="left:64%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-hotel" style="left:77%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-gali" style="left:92%;top:25%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-turing" style="left:8%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-studio" style="left:22%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-demorgan" style="left:36%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-corbu" style="left:51%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-alpha" style="left:65%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-beta" style="left:77%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-sq1" style="left:91%;top:40%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-                    <div class="pin-mk pin-sq2" style="left:9%;top:56%;">
-                      <div class="pe">📍</div>
-                      <div class="pp"></div>
-                    </div>
-
-                    <div class="map-hint">🗺️ Click a building to mark the pickup spot</div>
-                  </div><!-- end .map-inner -->
-                </div><!-- end .map-box -->
-
-                <!-- Location tag shown after pin -->
-                <div class="loc-tag loc-tag-gate">📍 Pinned: Main Gate</div>
-                <div class="loc-tag loc-tag-fleming">📍 Pinned: Fleming Block</div>
-                <div class="loc-tag loc-tag-martin">📍 Pinned: Martin Luther Block</div>
-                <div class="loc-tag loc-tag-rock">📍 Pinned: Rockefeller Block</div>
-                <div class="loc-tag loc-tag-picasso">📍 Pinned: Picasso Block</div>
-                <div class="loc-tag loc-tag-explor">📍 Pinned: Exploratorium</div>
-                <div class="loc-tag loc-tag-sport">📍 Pinned: Sportorium</div>
-                <div class="loc-tag loc-tag-sq1">📍 Pinned: Square One</div>
-                <div class="loc-tag loc-tag-sq2">📍 Pinned: Square Two</div>
-                <div class="loc-tag loc-tag-turing">📍 Pinned: Turing Block</div>
-                <div class="loc-tag loc-tag-studio">📍 Pinned: Studio</div>
-                <div class="loc-tag loc-tag-demorgan">📍 Pinned: DeMorgan Block</div>
-                <div class="loc-tag loc-tag-library">📍 Pinned: Library</div>
-                <div class="loc-tag loc-tag-darwin">📍 Pinned: Darwin Block</div>
-                <div class="loc-tag loc-tag-tesla">📍 Pinned: Tesla Block</div>
-                <div class="loc-tag loc-tag-exphub">📍 Pinned: Explore Hub</div>
-                <div class="loc-tag loc-tag-dice">📍 Pinned: Dice Lab</div>
-                <div class="loc-tag loc-tag-hotel">📍 Pinned: Hotel Management Block</div>
-                <div class="loc-tag loc-tag-boys">📍 Pinned: Boys Hostel</div>
-                <div class="loc-tag loc-tag-girls">📍 Pinned: Girls Hostel</div>
-                <div class="loc-tag loc-tag-alpha">📍 Pinned: Alpha Zone</div>
-                <div class="loc-tag loc-tag-beta">📍 Pinned: Beta Zone</div>
-                <div class="loc-tag loc-tag-basket">📍 Pinned: Basketball Court</div>
-                <div class="loc-tag loc-tag-volley">📍 Pinned: Volleyball Court</div>
-                <div class="loc-tag loc-tag-pickle">📍 Pinned: Pickleball Court</div>
-                <div class="loc-tag loc-tag-football">📍 Pinned: Football Ground</div>
-                <div class="loc-tag loc-tag-parking">📍 Pinned: Parking Area</div>
-                <div class="loc-tag loc-tag-dohful">📍 Pinned: Dohful</div>
-                <div class="loc-tag loc-tag-gali">📍 Pinned: Galileo Block</div>
-                <div class="loc-tag loc-tag-corbu">📍 Pinned: Le Corbusier Block</div>
-              </div>
-
-              <div class="fg"><label for="item-spot">Specific Spot (optional)</label><input type="text" id="item-spot"
-                  name="specific_spot" placeholder="e.g. &quot;Near main entrance&quot;, &quot;Room 204&quot;" /></div>
-              <div class="fg-row">
-                <div class="fg"><label for="finder-name">Your Name *</label><input type="text" id="finder-name"
-                    name="finder_name" placeholder="Full name" required aria-required="true" /></div>
-                <div class="fg"><label for="finder-role">Your Role *</label>
-                  <select id="finder-role" name="role" required aria-required="true">
-                    <option value="">Select…</option>
-                    <option>Student</option>
-                    <option>Professor</option>
-                    <option>Staff</option>
-                  </select>
-                </div>
-              </div>
-              <div class="fg"><label for="finder-email">Contact Email *</label><input type="email" id="finder-email"
-                  name="email" placeholder="yourname@university.edu" required aria-required="true" /></div>
-              <button class="submit-btn" type="submit">🚀 Submit Found Item</button>
-            </form>
-          </div>
-
-          <div class="info-stack">
-            <div class="info-card">
-              <h4>🗂️ Item Categories</h4>
-              <div class="cat-chips">
-                <span class="chip">📱 Electronics</span><span class="chip">👕 Clothing</span><span class="chip">📚
-                  Stationery</span><span class="chip">🪪 ID Cards</span><span class="chip">🔑 Keys</span><span
-                  class="chip">🎒 Bags</span><span class="chip">💍 Jewellery</span><span class="chip">🍱
-                  Bottles</span><span class="chip">🧩 Other</span>
-              </div>
-            </div>
-            <div class="info-card">
-              <h4>💡 Tips for a Good Listing</h4>
-              <ul class="tip-list">
-                <li><span>📸</span><span>Take clear, well-lit photos from multiple angles</span></li>
-                <li><span>🔍</span><span>Mention unique identifiers — color, brand, engravings</span></li>
-                <li><span>📍</span><span>Be specific about the exact collection point location</span></li>
-                <li><span>⏰</span><span>Post as soon as possible for faster reunions</span></li>
-                <li><span>🔒</span><span>Never publicly expose personal data from ID cards</span></li>
-              </ul>
-            </div>
-            <div class="info-card">
-              <h4>📞 Need Help?</h4>
-              <p style="font-size:.88rem;color:#5a6b7e;line-height:1.7;margin-bottom:12px;">For urgent items like
-                university IDs or wallets, contact campus security directly.</p>
-              <p style="font-size:.86rem;font-weight:800;color:var(--green-dark);">📞 Campus Security: Ext. 1001</p>
-              <p style="font-size:.86rem;font-weight:800;color:var(--blue);margin-top:6px;">🏢 Admin Office: Room 101,
-                Block Martin</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-
-    <div class="page" id="page-about">
-      <!-- ════ ABOUT ════ -->
-      <section id="about">
-        <div class="about-grid">
-          <div class="about-vis">
-            <div class="emoji-big">🎓</div>
-            <h3>Serving Our Campus Community</h3>
-            <p>FindIt was built to make campus life a little less stressful for everyone.</p>
-            <div class="stat-grid">
-              <div class="astat">
-                <div class="n">124<b>+</b></div>
-                <div class="l">Items Returned</div>
-              </div>
-              <div class="astat">
-                <div class="n">600<b>+</b></div>
-                <div class="l">Students Helped</div>
-              </div>
-              <div class="astat">
-                <div class="n">38</div>
-                <div class="l">Active Listings</div>
-              </div>
-              <div class="astat">
-                <div class="n">96<b>%</b></div>
-                <div class="l">Match Rate</div>
-              </div>
-            </div>
-          </div>
-          <div class="about-text">
-            <span class="tag">About FindIt</span>
-            <h2 class="sec-title">Built for students,<br>by students 💚</h2>
-            <p>FindIt is a campus-wide lost and found platform that makes it effortless to report, discover, and reclaim
-              lost items. Whether you're a student, professor, or staff — everyone's part of our finder community.</p>
-            <p>We believe small acts of honesty build a stronger campus culture. By using FindIt, you're not just
-              recovering a phone or keys — you're helping build trust across the university.</p>
-            <ul class="val-list">
-              <li>
-                <div class="vi">💚</div>
-                <div><strong>Community first</strong> — every campus member can contribute and benefit</div>
-              </li>
-              <li>
-                <div class="vi">🔒</div>
-                <div><strong>Privacy safe</strong> — we never expose sensitive personal information publicly</div>
-              </li>
-              <li>
-                <div class="vi">⚡</div>
-                <div><strong>Fast &amp; simple</strong> — post a found item in under 2 minutes, no account needed</div>
-              </li>
-              <li>
-                <div class="vi">📍</div>
-                <div><strong>Location pinning</strong> — clear pickup points so there's never any confusion</div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </div>
-
-
-    <div class="page" id="page-contact">
-      <!-- ════ CONTACT ════ -->
-      <section id="contact">
-        <span class="tag">Get In Touch</span>
-        <h2 class="sec-title">Contact Us</h2>
-        <p class="sec-sub">Have a question, found something urgent, or want to suggest a feature? We'd love to hear from
-          you.</p>
-        <div class="contact-grid">
-          <div class="contact-form">
-            <h3>Send a Message</h3>
-            <form id="contact-form-ui" action="#" method="post" novalidate aria-label="Contact form">
-              <div class="fg"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name"
-                  placeholder="Full name" required aria-required="true" /></div>
-              <div class="fg"><label for="c-email">Email</label><input type="email" id="c-email" name="email"
-                  placeholder="yourname@university.edu.in" required aria-required="true" /></div>
-              <div class="fg"><label for="c-subject">Subject</label>
-                <select id="c-subject" name="subject">
-                  <option>I found an urgent item</option>
-                  <option>I'm looking for my item</option>
-                  <option>Report an issue</option>
-                  <option>Feature suggestion</option>
-                  <option>General question</option>
+      <div class="report-grid">
+        <div class="form-card">
+          <h3>📋 Item Details</h3>
+          <form id="report-form" action="#" method="post" novalidate aria-label="Report a found item">
+            <div class="fg"><label for="item-name">Item Name *</label><input type="text" id="item-name" name="item_name"
+                placeholder="e.g. Black Sony Headphones" required aria-required="true" /></div>
+            <div class="fg-row">
+              <div class="fg"><label for="item-cat">Category *</label>
+                <select id="item-cat" name="category" required aria-required="true">
+                  <option value="">Select category…</option>
+                  <option>📱 Electronics</option>
+                  <option>👕 Clothing</option>
+                  <option>📚 Stationery / Books</option>
+                  <option>🪪 ID / Cards / Documents</option>
+                  <option>🔑 Keys</option>
+                  <option>🎒 Bags / Accessories</option>
+                  <option>💍 Jewellery / Watches</option>
+                  <option>🍱 Food / Water Bottles</option>
+                  <option>🧩 Other</option>
                 </select>
               </div>
-              <div class="fg"><label for="c-msg">Message</label><textarea id="c-msg" name="message" rows="4"
-                  placeholder="Tell us what's on your mind…" required aria-required="true"></textarea></div>
-              <button class="submit-btn" type="submit">Send Message 💬</button>
-            </form>
+              <div class="fg"><label for="item-date">Date Found *</label><input type="date" id="item-date"
+                  name="date_found" required aria-required="true" /></div>
+            </div>
+            <div class="fg"><label for="item-desc">Description *</label><textarea id="item-desc" name="description"
+                rows="3" placeholder="Color, brand, distinguishing features, condition…" required
+                aria-required="true"></textarea></div>
+            <div class="fg">
+              <label for="item-photos">📷 Upload Photos *</label>
+              <div class="upload-zone">
+                <input type="file" id="item-photos" name="photos" accept="image/*" capture="environment" multiple
+                  aria-label="Upload photos of the found item" />
+                <div class="upload-icon-big">📸</div>
+                <p>Click or drag &amp; drop photos here</p>
+                <span>JPG, PNG, WEBP — up to 5 images</span>
+              </div>
+            </div>
+
+            <!-- Campus Map with CSS-only pin -->
+            <div class="fg">
+              <label>📍 Pin Pickup Location on Campus Map *</label>
+              <p style="font-size:.82rem;color:var(--g3);margin-bottom:6px;">Click a building on the map to drop a
+                pin. Scroll to explore the full campus.</p>
+
+              <!-- 30 radio inputs -->
+              <input type="radio" name="campus-pin" id="pr-gate" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-fleming" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-martin" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-rock" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-picasso" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-explor" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-sport" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-sq1" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-sq2" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-turing" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-studio" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-demorgan" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-library" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-darwin" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-tesla" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-exphub" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-dice" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-hotel" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-boys" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-girls" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-alpha" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-beta" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-basket" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-volley" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-pickle" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-football" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-parking" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-dohful" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-gali" class="pr" />
+              <input type="radio" name="campus-pin" id="pr-corbu" class="pr" />
+
+              <div class="map-box">
+                <div class="map-inner">
+                  <div class="map-grid-lines"></div>
+
+                  <!-- ROW 1 — Top strip (entrance area) -->
+                  <div class="map-bld" style="left:2%;top:2%;width:8%;height:8%;">🚪<br />Main Gate</div>
+                  <div class="map-bld" style="left:12%;top:2%;width:10%;height:10%;">🅿️<br />Parking</div>
+                  <div class="map-bld" style="left:24%;top:2%;width:10%;height:10%;">🏠<br />Boys Hostel</div>
+                  <div class="map-bld" style="left:36%;top:2%;width:10%;height:10%;">🏠<br />Girls Hostel</div>
+                  <div class="map-bld" style="left:48%;top:2%;width:10%;height:10%;">☕<br />Dohful</div>
+                  <div class="map-bld" style="left:60%;top:2%;width:11%;height:10%;">🏟<br />Sportorium</div>
+                  <div class="map-bld" style="left:73%;top:2%;width:11%;height:10%;">🏀<br />Basketball</div>
+                  <div class="map-bld" style="left:86%;top:2%;width:12%;height:10%;">🏐<br />Volleyball</div>
+
+                  <!-- ROW 2 -->
+                  <div class="map-bld" style="left:2%;top:16%;width:13%;height:11%;">🔬<br />Fleming Block</div>
+                  <div class="map-bld" style="left:17%;top:16%;width:13%;height:11%;">✝️<br />Martin Luther</div>
+                  <div class="map-bld" style="left:32%;top:16%;width:13%;height:11%;">🏛<br />Rockefeller</div>
+                  <div class="map-bld" style="left:47%;top:16%;width:12%;height:11%;">🎨<br />Picasso Block</div>
+                  <div class="map-bld" style="left:61%;top:16%;width:12%;height:11%;">🔭<br />Exploratorium</div>
+                  <div class="map-bld" style="left:75%;top:16%;width:11%;height:11%;">🏸<br />Pickleball</div>
+                  <div class="map-bld" style="left:88%;top:16%;width:10%;height:11%;">⚽<br />Football</div>
+
+                  <!-- ROW 3 — Middle zone -->
+                  <div class="map-bld" style="left:2%;top:31%;width:12%;height:11%;">📚<br />Library</div>
+                  <div class="map-bld" style="left:16%;top:31%;width:13%;height:11%;">🧬<br />Darwin Block</div>
+                  <div class="map-bld" style="left:31%;top:31%;width:12%;height:11%;">⚡<br />Tesla Block</div>
+                  <div class="map-bld" style="left:45%;top:31%;width:12%;height:11%;">🔍<br />Explore Hub</div>
+                  <div class="map-bld" style="left:59%;top:31%;width:10%;height:11%;">🎲<br />Dice Lab</div>
+                  <div class="map-bld" style="left:71%;top:31%;width:13%;height:11%;">🍴<br />Hotel Mgmt</div>
+                  <div class="map-bld" style="left:86%;top:31%;width:12%;height:11%;">🎓<br />Gallelio</div>
+
+                  <!-- ROW 4 — Lower zone -->
+                  <div class="map-bld" style="left:2%;top:46%;width:12%;height:11%;">💻<br />Turing Block</div>
+                  <div class="map-bld" style="left:16%;top:46%;width:12%;height:11%;">🎬<br />Studio</div>
+                  <div class="map-bld" style="left:30%;top:46%;width:13%;height:11%;">📐<br />DeMorgan</div>
+                  <div class="map-bld" style="left:45%;top:46%;width:13%;height:11%;">🏗<br />Le Corbusier</div>
+                  <div class="map-bld" style="left:60%;top:46%;width:10%;height:11%;">🅰<br />Alpha Zone</div>
+                  <div class="map-bld" style="left:72%;top:46%;width:10%;height:11%;">🅱<br />Beta Zone</div>
+                  <div class="map-bld" style="left:84%;top:46%;width:14%;height:11%;">🏢<br />Square One</div>
+
+                  <!-- ROW 5 — Bottom -->
+                  <div class="map-bld" style="left:2%;top:62%;width:14%;height:11%;">🏢<br />Square Two</div>
+
+                  <!-- Clickable overlays (same positions as buildings) -->
+                  <label for="pr-gate" class="bld-lbl" style="left:2%;top:2%;width:8%;height:8%;"></label>
+                  <label for="pr-parking" class="bld-lbl" style="left:12%;top:2%;width:10%;height:10%;"></label>
+                  <label for="pr-boys" class="bld-lbl" style="left:24%;top:2%;width:10%;height:10%;"></label>
+                  <label for="pr-girls" class="bld-lbl" style="left:36%;top:2%;width:10%;height:10%;"></label>
+                  <label for="pr-dohful" class="bld-lbl" style="left:48%;top:2%;width:10%;height:10%;"></label>
+                  <label for="pr-sport" class="bld-lbl" style="left:60%;top:2%;width:11%;height:10%;"></label>
+                  <label for="pr-basket" class="bld-lbl" style="left:73%;top:2%;width:11%;height:10%;"></label>
+                  <label for="pr-volley" class="bld-lbl" style="left:86%;top:2%;width:12%;height:10%;"></label>
+                  <label for="pr-fleming" class="bld-lbl" style="left:2%;top:16%;width:13%;height:11%;"></label>
+                  <label for="pr-martin" class="bld-lbl" style="left:17%;top:16%;width:13%;height:11%;"></label>
+                  <label for="pr-rock" class="bld-lbl" style="left:32%;top:16%;width:13%;height:11%;"></label>
+                  <label for="pr-picasso" class="bld-lbl" style="left:47%;top:16%;width:12%;height:11%;"></label>
+                  <label for="pr-explor" class="bld-lbl" style="left:61%;top:16%;width:12%;height:11%;"></label>
+                  <label for="pr-pickle" class="bld-lbl" style="left:75%;top:16%;width:11%;height:11%;"></label>
+                  <label for="pr-football" class="bld-lbl" style="left:88%;top:16%;width:10%;height:11%;"></label>
+                  <label for="pr-library" class="bld-lbl" style="left:2%;top:31%;width:12%;height:11%;"></label>
+                  <label for="pr-darwin" class="bld-lbl" style="left:16%;top:31%;width:13%;height:11%;"></label>
+                  <label for="pr-tesla" class="bld-lbl" style="left:31%;top:31%;width:12%;height:11%;"></label>
+                  <label for="pr-exphub" class="bld-lbl" style="left:45%;top:31%;width:12%;height:11%;"></label>
+                  <label for="pr-dice" class="bld-lbl" style="left:59%;top:31%;width:10%;height:11%;"></label>
+                  <label for="pr-hotel" class="bld-lbl" style="left:71%;top:31%;width:13%;height:11%;"></label>
+                  <label for="pr-gali" class="bld-lbl" style="left:86%;top:31%;width:12%;height:11%;"></label>
+                  <label for="pr-turing" class="bld-lbl" style="left:2%;top:46%;width:12%;height:11%;"></label>
+                  <label for="pr-studio" class="bld-lbl" style="left:16%;top:46%;width:12%;height:11%;"></label>
+                  <label for="pr-demorgan" class="bld-lbl" style="left:30%;top:46%;width:13%;height:11%;"></label>
+                  <label for="pr-corbu" class="bld-lbl" style="left:45%;top:46%;width:13%;height:11%;"></label>
+                  <label for="pr-alpha" class="bld-lbl" style="left:60%;top:46%;width:10%;height:11%;"></label>
+                  <label for="pr-beta" class="bld-lbl" style="left:72%;top:46%;width:10%;height:11%;"></label>
+                  <label for="pr-sq1" class="bld-lbl" style="left:84%;top:46%;width:14%;height:11%;"></label>
+                  <label for="pr-sq2" class="bld-lbl" style="left:2%;top:62%;width:14%;height:11%;"></label>
+
+                  <!-- Pin markers (offset above each building) -->
+                  <div class="pin-mk pin-gate" style="left:6%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-parking" style="left:17%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-boys" style="left:29%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-girls" style="left:41%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-dohful" style="left:53%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-sport" style="left:65%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-basket" style="left:78%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-volley" style="left:92%;top:-2%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-fleming" style="left:8%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-martin" style="left:23%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-rock" style="left:38%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-picasso" style="left:53%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-explor" style="left:67%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-pickle" style="left:80%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-football" style="left:93%;top:10%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-library" style="left:8%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-darwin" style="left:22%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-tesla" style="left:37%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-exphub" style="left:51%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-dice" style="left:64%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-hotel" style="left:77%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-gali" style="left:92%;top:25%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-turing" style="left:8%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-studio" style="left:22%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-demorgan" style="left:36%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-corbu" style="left:51%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-alpha" style="left:65%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-beta" style="left:77%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-sq1" style="left:91%;top:40%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+                  <div class="pin-mk pin-sq2" style="left:9%;top:56%;">
+                    <div class="pe">📍</div>
+                    <div class="pp"></div>
+                  </div>
+
+                  <div class="map-hint">🗺️ Click a building to mark the pickup spot</div>
+                </div><!-- end .map-inner -->
+              </div><!-- end .map-box -->
+
+              <!-- Location tag shown after pin -->
+              <div class="loc-tag loc-tag-gate">📍 Pinned: Main Gate</div>
+              <div class="loc-tag loc-tag-fleming">📍 Pinned: Fleming Block</div>
+              <div class="loc-tag loc-tag-martin">📍 Pinned: Martin Luther Block</div>
+              <div class="loc-tag loc-tag-rock">📍 Pinned: Rockefeller Block</div>
+              <div class="loc-tag loc-tag-picasso">📍 Pinned: Picasso Block</div>
+              <div class="loc-tag loc-tag-explor">📍 Pinned: Exploratorium</div>
+              <div class="loc-tag loc-tag-sport">📍 Pinned: Sportorium</div>
+              <div class="loc-tag loc-tag-sq1">📍 Pinned: Square One</div>
+              <div class="loc-tag loc-tag-sq2">📍 Pinned: Square Two</div>
+              <div class="loc-tag loc-tag-turing">📍 Pinned: Turing Block</div>
+              <div class="loc-tag loc-tag-studio">📍 Pinned: Studio</div>
+              <div class="loc-tag loc-tag-demorgan">📍 Pinned: DeMorgan Block</div>
+              <div class="loc-tag loc-tag-library">📍 Pinned: Library</div>
+              <div class="loc-tag loc-tag-darwin">📍 Pinned: Darwin Block</div>
+              <div class="loc-tag loc-tag-tesla">📍 Pinned: Tesla Block</div>
+              <div class="loc-tag loc-tag-exphub">📍 Pinned: Explore Hub</div>
+              <div class="loc-tag loc-tag-dice">📍 Pinned: Dice Lab</div>
+              <div class="loc-tag loc-tag-hotel">📍 Pinned: Hotel Management Block</div>
+              <div class="loc-tag loc-tag-boys">📍 Pinned: Boys Hostel</div>
+              <div class="loc-tag loc-tag-girls">📍 Pinned: Girls Hostel</div>
+              <div class="loc-tag loc-tag-alpha">📍 Pinned: Alpha Zone</div>
+              <div class="loc-tag loc-tag-beta">📍 Pinned: Beta Zone</div>
+              <div class="loc-tag loc-tag-basket">📍 Pinned: Basketball Court</div>
+              <div class="loc-tag loc-tag-volley">📍 Pinned: Volleyball Court</div>
+              <div class="loc-tag loc-tag-pickle">📍 Pinned: Pickleball Court</div>
+              <div class="loc-tag loc-tag-football">📍 Pinned: Football Ground</div>
+              <div class="loc-tag loc-tag-parking">📍 Pinned: Parking Area</div>
+              <div class="loc-tag loc-tag-dohful">📍 Pinned: Dohful</div>
+              <div class="loc-tag loc-tag-gali">📍 Pinned: Galileo Block</div>
+              <div class="loc-tag loc-tag-corbu">📍 Pinned: Le Corbusier Block</div>
+            </div>
+
+            <div class="fg"><label for="item-spot">Specific Spot (optional)</label><input type="text" id="item-spot"
+                name="specific_spot" placeholder="e.g. &quot;Near main entrance&quot;, &quot;Room 204&quot;" /></div>
+            <div class="fg-row">
+              <div class="fg"><label for="finder-name">Your Name *</label><input type="text" id="finder-name"
+                  name="finder_name" placeholder="Full name" required aria-required="true" /></div>
+              <div class="fg"><label for="finder-role">Your Role *</label>
+                <select id="finder-role" name="role" required aria-required="true">
+                  <option value="">Select…</option>
+                  <option>Student</option>
+                  <option>Professor</option>
+                  <option>Staff</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg"><label for="finder-email">Contact Email *</label><input type="email" id="finder-email"
+                name="email" placeholder="yourname@university.edu" required aria-required="true" /></div>
+            <button class="submit-btn" type="submit">🚀 Submit Found Item</button>
+          </form>
+        </div>
+
+        <div class="info-stack">
+          <div class="info-card">
+            <h4>🗂️ Item Categories</h4>
+            <div class="cat-chips">
+              <span class="chip">📱 Electronics</span><span class="chip">👕 Clothing</span><span class="chip">📚
+                Stationery</span><span class="chip">🪪 ID Cards</span><span class="chip">🔑 Keys</span><span
+                class="chip">🎒 Bags</span><span class="chip">💍 Jewellery</span><span class="chip">🍱
+                Bottles</span><span class="chip">🧩 Other</span>
+            </div>
           </div>
-          <div class="contact-info-col">
-            <div class="ccard">
-              <div class="cicon">🏢</div>
-              <div>
-                <h4>Admin Office</h4>
-                <p>Room 101, Block A<br>University Campus<br>Mon–Fri, 9am – 5pm</p>
-              </div>
+          <div class="info-card">
+            <h4>💡 Tips for a Good Listing</h4>
+            <ul class="tip-list">
+              <li><span>📸</span><span>Take clear, well-lit photos from multiple angles</span></li>
+              <li><span>🔍</span><span>Mention unique identifiers — color, brand, engravings</span></li>
+              <li><span>📍</span><span>Be specific about the exact collection point location</span></li>
+              <li><span>⏰</span><span>Post as soon as possible for faster reunions</span></li>
+              <li><span>🔒</span><span>Never publicly expose personal data from ID cards</span></li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <h4>📞 Need Help?</h4>
+            <p style="font-size:.88rem;color:#5a6b7e;line-height:1.7;margin-bottom:12px;">For urgent items like
+              university IDs or wallets, contact campus security directly.</p>
+            <p style="font-size:.86rem;font-weight:800;color:var(--green-dark);">📞 Campus Security: Ext. 1001</p>
+            <p style="font-size:.86rem;font-weight:800;color:var(--blue);margin-top:6px;">🏢 Admin Office: Room 101,
+              Block Martin</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <div class="page" id="page-about">
+    <!-- ════ ABOUT ════ -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-vis">
+          <div class="emoji-big">🎓</div>
+          <h3>Serving Our Campus Community</h3>
+          <p>FindIt was built to make campus life a little less stressful for everyone.</p>
+          <div class="stat-grid">
+            <div class="astat">
+              <div class="n">124<b>+</b></div>
+              <div class="l">Items Returned</div>
             </div>
-            <div class="ccard">
-              <div class="cicon">📞</div>
-              <div>
-                <h4>Campus Security (24/7)</h4>
-                <p>Extension 1001 (internal)<br>+91-XXXXX-XXXXX (external)</p>
-              </div>
+            <div class="astat">
+              <div class="n">600<b>+</b></div>
+              <div class="l">Students Helped</div>
             </div>
-            <div class="ccard">
-              <div class="cicon">📧</div>
-              <div>
-                <h4>Email Us</h4>
-                <p><span class="__cf_email__"
-                    data-cfemail="62040b0c060b1622170c0b140710110b161b4c070617">[email&#160;protected]</span><br>We
-                  respond within 24 hours</p>
-              </div>
+            <div class="astat">
+              <div class="n">38</div>
+              <div class="l">Active Listings</div>
             </div>
-            <div class="ccard">
-              <div class="cicon">💬</div>
-              <div>
-                <h4>Student Helpdesk</h4>
-                <p>Available at the Student Union<br>or via the student portal</p>
-              </div>
+            <div class="astat">
+              <div class="n">96<b>%</b></div>
+              <div class="l">Match Rate</div>
             </div>
           </div>
         </div>
-      </section>
+        <div class="about-text">
+          <span class="tag">About FindIt</span>
+          <h2 class="sec-title">Built for students,<br>by students 💚</h2>
+          <p>FindIt is a campus-wide lost and found platform that makes it effortless to report, discover, and reclaim
+            lost items. Whether you're a student, professor, or staff — everyone's part of our finder community.</p>
+          <p>We believe small acts of honesty build a stronger campus culture. By using FindIt, you're not just
+            recovering a phone or keys — you're helping build trust across the university.</p>
+          <ul class="val-list">
+            <li>
+              <div class="vi">💚</div>
+              <div><strong>Community first</strong> — every campus member can contribute and benefit</div>
+            </li>
+            <li>
+              <div class="vi">🔒</div>
+              <div><strong>Privacy safe</strong> — we never expose sensitive personal information publicly</div>
+            </li>
+            <li>
+              <div class="vi">⚡</div>
+              <div><strong>Fast &amp; simple</strong> — post a found item in under 2 minutes, no account needed</div>
+            </li>
+            <li>
+              <div class="vi">📍</div>
+              <div><strong>Location pinning</strong> — clear pickup points so there's never any confusion</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <div class="page" id="page-contact">
+    <!-- ════ CONTACT ════ -->
+    <section id="contact">
+      <span class="tag">Get In Touch</span>
+      <h2 class="sec-title">Contact Us</h2>
+      <p class="sec-sub">Have a question, found something urgent, or want to suggest a feature? We'd love to hear from
+        you.</p>
+      <div class="contact-grid">
+        <div class="contact-form">
+          <h3>Send a Message</h3>
+          <form id="contact-form-ui" action="#" method="post" novalidate aria-label="Contact form">
+            <div class="fg"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name"
+                placeholder="Full name" required aria-required="true" /></div>
+            <div class="fg"><label for="c-email">Email</label><input type="email" id="c-email" name="email"
+                placeholder="yourname@university.edu.in" required aria-required="true" /></div>
+            <div class="fg"><label for="c-subject">Subject</label>
+              <select id="c-subject" name="subject">
+                <option>I found an urgent item</option>
+                <option>I'm looking for my item</option>
+                <option>Report an issue</option>
+                <option>Feature suggestion</option>
+                <option>General question</option>
+              </select>
+            </div>
+            <div class="fg"><label for="c-msg">Message</label><textarea id="c-msg" name="message" rows="4"
+                placeholder="Tell us what's on your mind…" required aria-required="true"></textarea></div>
+            <button class="submit-btn" type="submit">Send Message 💬</button>
+          </form>
+        </div>
+        <div class="contact-info-col">
+          <div class="ccard">
+            <div class="cicon">🏢</div>
+            <div>
+              <h4>Admin Office</h4>
+              <p>Room 101, Block A<br>University Campus<br>Mon–Fri, 9am – 5pm</p>
+            </div>
+          </div>
+          <div class="ccard">
+            <div class="cicon">📞</div>
+            <div>
+              <h4>Campus Security (24/7)</h4>
+              <p>Extension 1001 (internal)<br>+91-XXXXX-XXXXX (external)</p>
+            </div>
+          </div>
+          <div class="ccard">
+            <div class="cicon">📧</div>
+            <div>
+              <h4>Email Us</h4>
+              <p><span class="__cf_email__"
+                  data-cfemail="62040b0c060b1622170c0b140710110b161b4c070617">[email&#160;protected]</span><br>We
+                respond within 24 hours</p>
+            </div>
+          </div>
+          <div class="ccard">
+            <div class="cicon">💬</div>
+            <div>
+              <h4>Student Helpdesk</h4>
+              <p>Available at the Student Union<br>or via the student portal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ════ FOOTER ════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="f-brand">
+        <a href="#" class="nav-logo" style="color:#fff;">
+          <div class="logo-box">🔍</div>Find<span class="logo-dot">It</span>
+        </a>
+        <p>Your campus lost &amp; found portal. Helping the university community reunite with their belongings since
+          2025.</p>
+      </div>
+      <div class="f-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#page-how">How It Works</a></li>
+          <li><a href="#page-browse">Browse Items</a></li>
+          <li><a href="#page-report">Report Found</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Categories</h5>
+        <ul>
+          <li><a href="#page-browse" onclick="document.getElementById('t-elec').click()">Electronics</a></li>
+          <li><a href="#page-browse" onclick="document.getElementById('t-id').click()">ID &amp; Cards</a></li>
+          <li><a href="#page-browse" onclick="document.getElementById('t-keys').click()">Keys</a></li>
+          <li><a href="#page-browse" onclick="document.getElementById('t-cloth').click()">Clothing</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Help</h5>
+        <ul>
+          <li><a href="#page-how">About FindIt</a></li>
+          <li><a href="#page-contact">Contact</a></li>
+          <li><a href="#"
+              onclick="alert('Privacy Policy:\n\nStudent data is stored strictly and securely. IP addresses are logged exclusively for Anti-Theft monitoring.'); return false;">Privacy
+              Policy</a></li>
+          <li><a href="#page-contact" onclick="document.getElementById('c-subject').value='Report an issue'">Report
+              Abuse</a></li>
+        </ul>
+      </div>
     </div>
+    <div class="footer-bottom">
+      <span>© 2025 FindIt — Campus Lost &amp; Found Portal. Made with 💚 for our university community.</span>
+      <span>Built for <a href="https://www.chitkara.edu.in/" target="_blank">Chitkara University</a></span>
+    </div>
+  </footer>
 
+  <!-- ════ LOGIN MODAL ════ -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal" style="max-width: 400px;">
+      <a href="#" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:8px;">Student Login</h3>
+      <p style="color:#5a6b7e; margin-bottom:24px; font-size:0.9rem;">Sign in with your University ID to verify your
+        identity.</p>
 
-    <!-- ════ FOOTER ════ -->
-    <footer>
-      <div class="footer-grid">
-        <div class="f-brand">
-          <a href="#" class="nav-logo" style="color:#fff;">
-            <div class="logo-box">🔍</div>Find<span class="logo-dot">It</span>
-          </a>
-          <p>Your campus lost &amp; found portal. Helping the university community reunite with their belongings since
-            2025.</p>
-        </div>
-        <div class="f-col">
-          <h5>Navigate</h5>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#page-how">How It Works</a></li>
-            <li><a href="#page-browse">Browse Items</a></li>
-            <li><a href="#page-report">Report Found</a></li>
-          </ul>
-        </div>
-        <div class="f-col">
-          <h5>Categories</h5>
-          <ul>
-            <li><a href="#page-browse" onclick="document.getElementById('t-elec').click()">Electronics</a></li>
-            <li><a href="#page-browse" onclick="document.getElementById('t-id').click()">ID &amp; Cards</a></li>
-            <li><a href="#page-browse" onclick="document.getElementById('t-keys').click()">Keys</a></li>
-            <li><a href="#page-browse" onclick="document.getElementById('t-cloth').click()">Clothing</a></li>
-          </ul>
-        </div>
-        <div class="f-col">
-          <h5>Help</h5>
-          <ul>
-            <li><a href="#page-how">About FindIt</a></li>
-            <li><a href="#page-contact">Contact</a></li>
-            <li><a href="#" onclick="alert('Privacy Policy:\n\nStudent data is stored strictly and securely. IP addresses are logged exclusively for Anti-Theft monitoring.'); return false;">Privacy Policy</a></li>
-            <li><a href="#page-contact" onclick="document.getElementById('c-subject').value='Report an issue'">Report Abuse</a></li>
-          </ul>
-        </div>
+      <div class="fg" style="margin-bottom:16px;">
+        <label style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Student
+          ID
+          / Roll No.</label>
+        <input type="text" id="login-sid" placeholder="e.g. 211099..."
+          style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
       </div>
-      <div class="footer-bottom">
-        <span>© 2025 FindIt — Campus Lost &amp; Found Portal. Made with 💚 for our university community.</span>
-        <span>Built for <a href="https://www.chitkara.edu.in/" target="_blank">Chitkara University</a></span>
+      <div class="fg" style="margin-bottom:24px;">
+        <label
+          style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Password</label>
+        <input type="password" id="login-pass" placeholder="Enter your password"
+          style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
       </div>
-    </footer>
+      <button class="btn btn-green"
+        style="width:100%; justify-content:center; padding:12px; font-size:1rem; border:none; cursor:pointer;"
+        onclick="handleLogin()">Sign In</button>
+    </div>
+  </div>
 
-    <!-- ════ LOGIN MODAL ════ -->
-    <div class="modal-overlay" id="login-modal">
-      <div class="modal" style="max-width: 400px;">
-        <a href="#" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:8px;">Student Login</h3>
-        <p style="color:#5a6b7e; margin-bottom:24px; font-size:0.9rem;">Sign in with your University ID to verify your
-          identity.</p>
+  <!-- ════ PROFILE / SETTINGS MODAL ════ -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal" style="max-width:350px; text-align:center;">
+      <a href="#" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:5px;">Student Profile</h3>
+      <p id="profile-sid-text" style="color:#5a6b7e; margin-bottom:20px; font-weight:bold;">Roll No: ...</p>
+
+      <!-- Password Change Section -->
+      <div style="background:#f8fafc; border-radius:10px; padding:15px; margin-bottom:20px; text-align:left;">
+        <h4 style="font-size:0.9rem; color:var(--navy); margin-bottom:10px;">Change Password</h4>
+        <input type="password" id="prof-old-pass" placeholder="Current Password"
+          style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:8px; font-size:0.85rem;">
+        <input type="password" id="prof-new-pass" placeholder="New Password"
+          style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:0.85rem;">
+        <button onclick="changePassword()"
+          style="width:100%; padding:8px; background:var(--navy); color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Update
+          Password</button>
+        <div id="prof-pass-msg"
+          style="font-size:0.85rem; margin-top:8px; text-align:center; display:none; font-weight:bold;"></div>
+      </div>
+
+      <a href="#modal-user-notifications" onclick="markNotifsRead()"
+        style="display:block; width:100%; text-align:center; padding:10px; background:#fff; color:var(--navy); border:2px solid var(--g2); font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none; position:relative;">🔔
+        My Notifications <span id="notif-badge"
+          style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:-5px; right:-5px; border:2px solid #fff;">0</span></a>
+
+      <a href="#modal-my-chats" onclick="renderMyChatsList()"
+        style="display:block; width:100%; text-align:center; padding:10px; background:#e0f2fe; color:#0369a1; border:2px solid #bae6fd; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none; position:relative;">💬 My Private Chats <span id="prof-chat-badge" style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:-5px; right:-5px; border:2px solid #fff;">0</span></a>
+
+      <a href="#modal-admin-inbox" id="prof-admin-btn" onclick="loadAdminInbox()"
+        style="display:none; width:100%; text-align:center; padding:10px; background:#f59e0b; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📥
+        Admin: View Messages</a>
+      <a href="#modal-admin-analytics" id="prof-admin-analytics-btn" onclick="loadAdminAnalytics()"
+        style="display:none; width:100%; text-align:center; padding:10px; background:#2563eb; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📊
+        Admin: User Analytics</a>
+      <a href="#modal-admin-claims" id="prof-admin-claims-btn" onclick="loadAdminClaims()"
+        style="display:none; width:100%; text-align:center; padding:10px; background:#4f46e5; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📋
+        Admin: Master Claims View</a>
+      <button onclick="handleLogout()" class="btn"
+        style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign
+        Out of Portal</button>
+    </div>
+  </div>
+
+  <!-- ════ USER NOTIFICATIONS MODAL ════ -->
+  <div class="modal-overlay" id="modal-user-notifications">
+    <div class="modal" style="max-width:400px; text-align:left; max-height:70vh; overflow-y:auto;">
+      <a href="#modal-profile" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.3rem; margin-bottom:15px;">🔔 Notifications</h3>
+      <div id="user-notifications-container">
+        <!-- User notifications injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ ADMIN INBOX MODAL ════ -->
+  <div class="modal-overlay" id="modal-admin-inbox">
+    <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+      <a href="#" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📥 Admin Inbox</h3>
+      <div id="admin-messages-container">
+        <!-- Messages injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ ADMIN ANALYTICS MODAL ════ -->
+  <div class="modal-overlay" id="modal-admin-analytics">
+    <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+      <a href="#" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📊 User Analytics</h3>
+      <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Live monitoring of student activity on the
+        platform.</p>
+      <button onclick="clearAnalytics()"
+        style="width:100%; padding:8px; background:#e2e8f0; color:#334155; border:none; border-radius:5px; font-size:0.85rem; font-weight:bold; cursor:pointer; margin-bottom:15px;">🗑️
+        Clear Logs</button>
+      <div id="admin-analytics-container">
+        <!-- Analytics injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ ADMIN CLAIMS MASTER MODAL ════ -->
+  <div class="modal-overlay" id="modal-admin-claims">
+    <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
+      <a href="#" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📋 Master Claims List</h3>
+      <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Monitoring student-to-student claim handoffs.</p>
+      <div id="admin-claims-container">
+        <!-- Claims injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MY CHATS MODAL ════ -->
+  <div class="modal-overlay" id="modal-my-chats">
+    <div class="modal" style="max-width:400px; text-align:left; max-height:70vh; overflow-y:auto;">
+      <a href="#modal-profile" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.3rem; margin-bottom:15px;">💬 My Private Chats</h3>
+      <div id="my-chats-list-container">
+        <!-- Chat list injected here -->
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- ════ CREATE POST MODAL ════ -->
+  <div class="modal-overlay" id="modal-create-post">
+    <div class="modal" style="max-width:500px; text-align:left;">
+      <a href="#page-community" class="modal-close">×</a>
+      <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">Create Community Post</h3>
+      <form id="create-post-form" action="#" method="post" onsubmit="submitCommunityPost(event)">
+        <div class="fg"><label>Title / Topic *</label><input type="text" id="post-title" required /></div>
+        <div class="fg"><label>Type *</label>
+          <select id="post-type" required>
+            <option value="general">General Discussion</option>
+            <option value="lost">Lost Item Alert</option>
+            <option value="found">Found Item Alert</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message *</label><textarea id="post-message" rows="4" required></textarea></div>
+        
+        <div class="fg" style="margin-bottom:16px;">
+          <label style="font-size:0.86rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Attach Photo (Optional)</label>
+          <div class="upload-zone" style="border: 2px dashed #b3c0ce; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; position: relative; background:#f8fafc;">
+            <input type="file" id="post-photo" accept="image/*" capture="environment" style="opacity: 0; position: absolute; inset: 0; width: 100%; cursor: pointer;">
+            <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+            <p id="post-upload-text" style="font-size: 0.8rem; color: #5a6b7e; margin: 0;">Click to upload or take a photo</p>
+          </div>
+        </div>
+
+        <button class="submit-btn" type="submit">Post to Community</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════ VIEW POST / COMMENTS MODAL ════ -->
+  <div class="modal-overlay" id="modal-view-post">
+    <div class="modal"
+      style="max-width:600px; text-align:left; max-height:85vh; overflow-y:auto; display:flex; flex-direction:column;">
+      <a href="#page-community" class="modal-close">×</a>
+      <div id="post-detail-content" style="margin-bottom: 20px;">
+        <!-- Post details injected here -->
+      </div>
+
+      <div style="border-top: 2px solid var(--g2); padding-top: 15px; margin-bottom: 15px;">
+        <h4 style="color:var(--navy); margin-bottom: 10px;">Comments</h4>
+        <div id="post-comments-list"
+          style="display:flex; flex-direction:column; gap:10px; margin-bottom: 15px; max-height: 200px; overflow-y: auto;">
+          <!-- Comments injected here -->
+        </div>
+
+        <form id="add-comment-form" onsubmit="submitComment(event)" style="display:flex; gap:10px;">
+          <input type="text" id="comment-input" placeholder="Add a comment..." required
+            style="flex:1; padding:10px; border:1px solid #ccc; border-radius:8px;" />
+          <button type="submit" class="btn btn-green" style="padding:10px 20px; font-size:0.9rem;">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ PRIVATE CHAT MODAL ════ -->
+  <div class="modal-overlay" id="modal-private-chat">
+    <div class="modal" style="max-width:500px; text-align:left; height:70vh; display:flex; flex-direction:column;">
+      <a href="#" onclick="history.back(); return false;" class="modal-close">×</a>
+      <h3 id="chat-header"
+        style="color:var(--navy); font-size:1.2rem; margin-bottom:15px; border-bottom:1px solid var(--g2); padding-bottom:10px;">
+        Chat</h3>
+
+      <div id="chat-messages-list"
+        style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px; margin-bottom: 15px; background:#f4f6f9; padding:10px; border-radius:10px;">
+        <!-- Chat messages injected here -->
+      </div>
+
+      <form id="chat-form" onsubmit="submitChatMessage(event)" style="display:flex; gap:10px;">
+        <input type="text" id="chat-input" placeholder="Type a message..." required
+          style="flex:1; padding:10px; border:1px solid #ccc; border-radius:8px;" />
+        <button type="submit" class="btn btn-green" style="padding:10px 20px; font-size:0.9rem;">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════ REPORT MODAL ════ -->
+  <div class="modal-overlay" id="item-modal">
+    <div class="modal">
+      <a href="#page-browse" class="modal-close">×</a>
+      <div class="modal-img bg-g" id="modal-icon">🎧</div>
+      <h3 id="modal-name">Item Name</h3>
+      <div class="modal-row">
+        <div class="ml">Category:</div>
+        <div class="mv" id="modal-cat">Electronics</div>
+      </div>
+      <div class="modal-row">
+        <div class="ml">Found Date:</div>
+        <div class="mv" id="modal-date">Jan 5</div>
+      </div>
+      <div class="modal-row">
+        <div class="ml">Details:</div>
+        <div class="mv" id="modal-desc">Description here.</div>
+      </div>
+      <div class="modal-loc">
+        <div class="modal-loc-txt" id="modal-loc-txt">📍 Library</div>
+        <div class="modal-loc-sub" id="modal-spot">Specific Spot: N/A</div>
+      </div>
+
+      <div class="modal-actions" id="modal-actions-default">
+        <a href="#" class="btn btn-green" onclick="showClaimForm(); return false;">Request Claim</a>
+      </div>
+
+      <div id="modal-pending-msg"
+        style="display:none; margin-top:20px; padding:15px; background:#fff3cc; border-radius:10px; border:2px solid #f5b041; text-align:center;">
+        <h4 style="color:#b28900; margin-bottom:5px;">Verification Pending 🟠</h4>
+        <p style="font-size:0.85rem; color:#856600; margin:0;">Someone has claimed this item. We are currently
+          verifying their proof of ownership.</p>
+      </div>
+
+      <!-- The Claim Form -->
+      <div id="modal-claim-form" style="display:none; margin-top:20px; border-top:1px solid #e6ecf3; padding-top:20px;">
+        <h4 style="color:#c0151a; font-size:0.95rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+          ⚠️ University Anti-Theft Policy</h4>
+        <p style="font-size:0.82rem; color:#5a6b7e; margin-bottom:16px; line-height:1.5;">False claims are a serious
+          offense. Your Student ID and IP address will be recorded. Theft attempts will be reported to Campus
+          Administration.</p>
+
+        <div class="fg" style="margin-bottom:12px;">
+          <label for="claim-name"
+            style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Your
+            Full Name *</label>
+          <input type="text" id="claim-name" placeholder="e.g. John Doe..."
+            style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+        </div>
+        <div class="fg" style="margin-bottom:12px;">
+          <label for="claim-studentid"
+            style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Your
+            Student ID / Roll No. *</label>
+          <input type="text" id="claim-studentid" placeholder="e.g. 211099..."
+            style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+        </div>
+        <div class="fg" style="margin-bottom:16px;">
+          <label for="claim-proof"
+            style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Proof of
+            Ownership *</label>
+          <textarea id="claim-proof" placeholder="e.g. Lock screen wallpaper is my dog, or scratch on the left edge."
+            style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; resize:none; font-family:inherit;"
+            rows="2"></textarea>
+        </div>
 
         <div class="fg" style="margin-bottom:16px;">
-          <label
-            style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Student ID
-            / Roll No.</label>
-          <input type="text" id="login-sid" placeholder="e.g. 211099..."
-            style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
+          <label for="claim-proof-img"
+            style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Attach
+            Photo Proof (Optional)</label>
+          <div class="upload-zone"
+            style="border: 2px dashed #b3c0ce; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; position: relative; background:#f8fafc;">
+            <input type="file" id="claim-proof-img" accept="image/*" capture="environment"
+              style="opacity: 0; position: absolute; inset: 0; width: 100%; cursor: pointer;">
+            <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+            <p id="claim-upload-text" style="font-size: 0.8rem; color: #5a6b7e; margin: 0;">Click to upload or take a
+              photo</p>
+          </div>
         </div>
-        <div class="fg" style="margin-bottom:24px;">
-          <label
-            style="font-size:0.85rem; font-weight:800; color:var(--navy); margin-bottom:6px; display:block;">Password</label>
-          <input type="password" id="login-pass" placeholder="Enter your password"
-            style="width:100%; padding:12px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
-        </div>
+
         <button class="btn btn-green"
-          style="width:100%; justify-content:center; padding:12px; font-size:1rem; border:none; cursor:pointer;"
-          onclick="handleLogin()">Sign In</button>
+          style="width:100%; justify-content:center; padding:12px; font-size:0.95rem; border:none; cursor:pointer;"
+          onclick="submitClaim()">Submit Verification</button>
       </div>
+
     </div>
-
-    <!-- ════ PROFILE / SETTINGS MODAL ════ -->
-    <div class="modal-overlay" id="modal-profile">
-      <div class="modal" style="max-width:350px; text-align:center;">
-        <a href="#" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:5px;">Student Profile</h3>
-        <p id="profile-sid-text" style="color:#5a6b7e; margin-bottom:20px; font-weight:bold;">Roll No: ...</p>
-
-        <!-- Password Change Section -->
-        <div style="background:#f8fafc; border-radius:10px; padding:15px; margin-bottom:20px; text-align:left;">
-          <h4 style="font-size:0.9rem; color:var(--navy); margin-bottom:10px;">Change Password</h4>
-          <input type="password" id="prof-old-pass" placeholder="Current Password"
-            style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:8px; font-size:0.85rem;">
-          <input type="password" id="prof-new-pass" placeholder="New Password"
-            style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:0.85rem;">
-          <button onclick="changePassword()"
-            style="width:100%; padding:8px; background:var(--navy); color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Update
-            Password</button>
-          <div id="prof-pass-msg"
-            style="font-size:0.85rem; margin-top:8px; text-align:center; display:none; font-weight:bold;"></div>
-        </div>
-
-        <a href="#modal-user-notifications" onclick="markNotifsRead()"
-          style="display:block; width:100%; text-align:center; padding:10px; background:#fff; color:var(--navy); border:2px solid var(--g2); font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none; position:relative;">🔔
-          My Notifications <span id="notif-badge" style="display:none; background:#cc2027; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:10px; position:absolute; top:-5px; right:-5px; border:2px solid #fff;">0</span></a>
-
-        <a href="#modal-admin-inbox" id="prof-admin-btn" onclick="loadAdminInbox()"
-          style="display:none; width:100%; text-align:center; padding:10px; background:#f59e0b; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📥
-          Admin: View Messages</a>
-        <a href="#modal-admin-analytics" id="prof-admin-analytics-btn" onclick="loadAdminAnalytics()"
-          style="display:none; width:100%; text-align:center; padding:10px; background:#2563eb; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📊
-          Admin: User Analytics</a>
-        <a href="#modal-admin-claims" id="prof-admin-claims-btn" onclick="loadAdminClaims()"
-          style="display:none; width:100%; text-align:center; padding:10px; background:#4f46e5; color:#fff; border:none; font-weight:bold; cursor:pointer; margin-bottom:10px; border-radius:5px; text-decoration:none;">📋
-          Admin: Master Claims View</a>
-        <button onclick="handleLogout()" class="btn"
-          style="width:100%; justify-content:center; padding:10px; background:#cc2027; color:#fff; border:none; font-weight:bold; cursor:pointer;">Sign
-          Out of Portal</button>
-      </div>
-    </div>
-
-    <!-- ════ USER NOTIFICATIONS MODAL ════ -->
-    <div class="modal-overlay" id="modal-user-notifications">
-      <div class="modal" style="max-width:400px; text-align:left; max-height:70vh; overflow-y:auto;">
-        <a href="#modal-profile" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.3rem; margin-bottom:15px;">🔔 Notifications</h3>
-        <div id="user-notifications-container">
-          <!-- User notifications injected here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ ADMIN INBOX MODAL ════ -->
-    <div class="modal-overlay" id="modal-admin-inbox">
-      <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
-        <a href="#" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📥 Admin Inbox</h3>
-        <div id="admin-messages-container">
-          <!-- Messages injected here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ ADMIN ANALYTICS MODAL ════ -->
-    <div class="modal-overlay" id="modal-admin-analytics">
-      <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
-        <a href="#" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📊 User Analytics</h3>
-        <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Live monitoring of student activity on the platform.</p>
-        <button onclick="clearAnalytics()" style="width:100%; padding:8px; background:#e2e8f0; color:#334155; border:none; border-radius:5px; font-size:0.85rem; font-weight:bold; cursor:pointer; margin-bottom:15px;">🗑️ Clear Logs</button>
-        <div id="admin-analytics-container">
-          <!-- Analytics injected here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ ADMIN CLAIMS MASTER MODAL ════ -->
-    <div class="modal-overlay" id="modal-admin-claims">
-      <div class="modal" style="max-width:500px; text-align:left; max-height:80vh; overflow-y:auto;">
-        <a href="#" class="modal-close">×</a>
-        <h3 style="color:var(--navy); font-size:1.4rem; margin-bottom:15px;">📋 Master Claims List</h3>
-        <p style="font-size:0.85rem; color:#5a6b7e; margin-bottom:15px;">Monitoring student-to-student claim handoffs.</p>
-        <div id="admin-claims-container">
-          <!-- Claims injected here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ REPORT MODAL ════ -->
-    <div class="modal-overlay" id="item-modal">
-      <div class="modal">
-        <a href="#page-browse" class="modal-close">×</a>
-        <div class="modal-img bg-g" id="modal-icon">🎧</div>
-        <h3 id="modal-name">Item Name</h3>
-        <div class="modal-row">
-          <div class="ml">Category:</div>
-          <div class="mv" id="modal-cat">Electronics</div>
-        </div>
-        <div class="modal-row">
-          <div class="ml">Found Date:</div>
-          <div class="mv" id="modal-date">Jan 5</div>
-        </div>
-        <div class="modal-row">
-          <div class="ml">Details:</div>
-          <div class="mv" id="modal-desc">Description here.</div>
-        </div>
-        <div class="modal-loc">
-          <div class="modal-loc-txt" id="modal-loc-txt">📍 Library</div>
-          <div class="modal-loc-sub" id="modal-spot">Specific Spot: N/A</div>
-        </div>
-
-        <div class="modal-actions" id="modal-actions-default">
-          <a href="#" class="btn btn-green" onclick="showClaimForm(); return false;">Request Claim</a>
-        </div>
-
-        <div id="modal-pending-msg"
-          style="display:none; margin-top:20px; padding:15px; background:#fff3cc; border-radius:10px; border:2px solid #f5b041; text-align:center;">
-          <h4 style="color:#b28900; margin-bottom:5px;">Verification Pending 🟠</h4>
-          <p style="font-size:0.85rem; color:#856600; margin:0;">Someone has claimed this item. We are currently
-            verifying their proof of ownership.</p>
-        </div>
-
-        <!-- The Claim Form -->
-        <div id="modal-claim-form"
-          style="display:none; margin-top:20px; border-top:1px solid #e6ecf3; padding-top:20px;">
-          <h4 style="color:#c0151a; font-size:0.95rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
-            ⚠️ University Anti-Theft Policy</h4>
-          <p style="font-size:0.82rem; color:#5a6b7e; margin-bottom:16px; line-height:1.5;">False claims are a serious
-            offense. Your Student ID and IP address will be recorded. Theft attempts will be reported to Campus
-            Administration.</p>
-
-          <div class="fg" style="margin-bottom:12px;">
-            <label for="claim-name"
-              style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Your
-              Full Name *</label>
-            <input type="text" id="claim-name" placeholder="e.g. John Doe..."
-              style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
-          </div>
-          <div class="fg" style="margin-bottom:12px;">
-            <label for="claim-studentid"
-              style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Your
-              Student ID / Roll No. *</label>
-            <input type="text" id="claim-studentid" placeholder="e.g. 211099..."
-              style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; font-family:inherit;">
-          </div>
-          <div class="fg" style="margin-bottom:16px;">
-            <label for="claim-proof"
-              style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Proof of
-              Ownership *</label>
-            <textarea id="claim-proof" placeholder="e.g. Lock screen wallpaper is my dog, or scratch on the left edge."
-              style="width:100%; padding:10px; border:2px solid #e6ecf3; border-radius:10px; resize:none; font-family:inherit;"
-              rows="2"></textarea>
-          </div>
-
-          <div class="fg" style="margin-bottom:16px;">
-            <label for="claim-proof-img"
-              style="font-size:0.8rem; display:block; margin-bottom:6px; font-weight:800; color:var(--navy);">Attach
-              Photo Proof (Optional)</label>
-            <div class="upload-zone"
-              style="border: 2px dashed #b3c0ce; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; position: relative; background:#f8fafc;">
-              <input type="file" id="claim-proof-img" accept="image/*" capture="environment"
-                style="opacity: 0; position: absolute; inset: 0; width: 100%; cursor: pointer;">
-              <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
-              <p id="claim-upload-text" style="font-size: 0.8rem; color: #5a6b7e; margin: 0;">Click to upload or take a
-                photo</p>
-            </div>
-          </div>
-
-          <button class="btn btn-green"
-            style="width:100%; justify-content:center; padding:12px; font-size:0.95rem; border:none; cursor:pointer;"
-            onclick="submitClaim()">Submit Verification</button>
-        </div>
-
-      </div>
-    </div>
+  </div>
 
   </div> <!-- End app-content -->
 </body>
